@@ -4,6 +4,7 @@ ENV["RAILS_ENV"] = "test"
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
 require 'factory_girl'
+require 'mongoid-rspec'
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -17,6 +18,8 @@ ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
 RSpec.configure do |config|
+  config.include Mongoid::Matchers
+
   # clean database
   config.before(:each) do
     Mongoid.master.collections.select { |c|
