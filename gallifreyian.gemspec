@@ -7,17 +7,18 @@ require "gallifreyian/version"
 Gem::Specification.new do |s|
   s.name        = "gallifreyian"
   s.version     = Gallifreyian::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
+  s.authors     = ["chatgris", "Romain Gauthier"]
+  s.email       = ["jboyer@af83.com", "romain.gauthier@af83.com"]
   s.homepage    = "TODO"
   s.summary     = "TODO: Summary of Gallifreyian."
   s.description = "TODO: Description of Gallifreyian."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
-  s.test_files = Dir["test/**/*"]
+  s.test_files = Dir["specs/**/*"]
 
   s.add_dependency "rails", "~> 3.1.3"
-  # s.add_dependency "jquery-rails"
+  s.add_dependency "mongoid"
 
+  s.add_development_dependency "rspec"
   s.add_development_dependency "sqlite3"
 end
