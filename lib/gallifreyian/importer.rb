@@ -3,12 +3,12 @@ module Gallifreyian
   class Importer
     include I18n::Backend::Flatten
 
-    def initialize(*paths)
+    def initialize(paths)
       @paths = paths
     end
 
     def run
-      @paths.each do |path|
+      @paths.flatten.each do |path|
         translations = YAML.load_file(path)
         language = translations.keys.first
 

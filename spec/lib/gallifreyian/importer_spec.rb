@@ -3,7 +3,7 @@ require 'spec_helper'
 
 describe Gallifreyian::Importer do
   before do
-    Gallifreyian::Importer.new(Rails.root.join('config', 'locales', 'es.yml')).run
+    Gallifreyian::Importer.new([Rails.root.join('config', 'locales', 'es.yml')]).run
   end
 
   it 'should have results' do
