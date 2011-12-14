@@ -19,6 +19,6 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.1.3"
   s.add_dependency "mongoid"
 
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency 'factory_girl_rails'
 end
