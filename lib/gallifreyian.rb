@@ -1,7 +1,7 @@
 # encoding: utf-8
-require "gallifreyian/engine"
-require "gallifreyian/importer"
+
 require 'mongoid'
+Dir["#{File.dirname(__FILE__)}/gallifreyian/**/*.rb"].each { |f| require f }
 
 module Gallifreyian
 end
