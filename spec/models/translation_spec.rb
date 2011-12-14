@@ -15,4 +15,3 @@ describe Gallifreyian::Translation do
     it { should have_field(:language).of_type(Symbol) }
   end
 end
-
