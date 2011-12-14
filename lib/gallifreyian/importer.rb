@@ -8,16 +8,22 @@ module Gallifreyian
     end
 
     def run
+      count = 0
       @paths.flatten.each do |path|
         translations = YAML.load_file(path)
         language = translations.keys.first
 
         flatten_keys(translations, false) do |key, datum|
           unless datum.is_a? Hash
-            Gallifreyian::Translation.create(key: key, datum: datum, language: language)
+            translation = Gallifreyian::Translation.create(key: key, datum: datum, language: language)
+            if translation.valid?
+              count += 1
+            end
           end
         end
       end
+
+      p "#{count} translations were imported."
     end
   end
 end
