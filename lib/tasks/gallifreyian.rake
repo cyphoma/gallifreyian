@@ -2,7 +2,7 @@
 
 namespace :gallifreyian do
 
-  desc "Import YAML files"
+  desc "Import YAML locales files"
   task :import => :environment do
     paths = Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
     Gallifreyian::Importer.new(paths).run
