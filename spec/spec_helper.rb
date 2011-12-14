@@ -5,11 +5,15 @@ require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require 'rspec/rails'
 require 'factory_girl'
 require 'mongoid-rspec'
+require 'faker'
 
 Rails.backtrace_cleaner.remove_silencers!
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
+# Factories
+Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
 
 ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 
