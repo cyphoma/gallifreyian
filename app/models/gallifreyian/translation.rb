@@ -22,6 +22,8 @@ class Gallifreyian::Translation
   #
   before_validation :sync_keys
   before_save :sanitize
+  # TODO: fix observer
+  after_save :to_i18n
 
   private
 
@@ -43,6 +45,10 @@ class Gallifreyian::Translation
   def sanitize
     self.datum = Sanitize.clean(self.datum)
     self.key = Sanitize.clean(self.key).parameterize('.')
+  end
+
+  def to_i18n
+    Gallifreyian::Store.save(self)
   end
 
 end
