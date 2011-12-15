@@ -6,14 +6,14 @@ module Gallifreyian
 
     delegate :dump_dir, to: "self.class"
 
-    def initialize(locales)
+    def initialize(locales = I18n.available_locales)
       @locales = locales
     end
 
     def run
       @locales.each do |locale|
         File.open(dump_dir.join("#{locale}.yml"), 'w' ) do |out|
-          YAML.dump({locale => all_translations[locale]}, out )
+          out.write({locale => all_translations[locale]}.to_yaml)
         end
       end
     end
@@ -31,7 +31,7 @@ module Gallifreyian
         tmp_hash = {}
         translation.key.split('.').reverse.each_with_index do |key, index|
           if index == 0
-            tmp_hash = {:"#{key}" => translation.datum}
+            tmp_hash = {:"#{key}" => translation.datum.to_s}
           else
             tmp_hash = {:"#{key}" => tmp_hash}
           end
