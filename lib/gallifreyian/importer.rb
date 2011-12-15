@@ -18,6 +18,10 @@ module Gallifreyian
             translation = Gallifreyian::Translation.create(key: key, datum: datum, language: language)
             if translation.valid?
               count += 1
+            else
+              translation.errors.messages.each do |field, message|
+                warn "#{field} invalid: #{message}"
+              end
             end
           end
         end
