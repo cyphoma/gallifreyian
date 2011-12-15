@@ -14,7 +14,7 @@ module Gallifreyian
       raise "#{dump_dir} does not exist." unless File.exists?(dump_dir)
       @locales.each do |locale|
         File.open(dump_dir.join("#{locale}.yml"), 'w' ) do |out|
-            out.write({locale => all_translations[locale]}.to_yaml)
+          out.write({locale => all_translations[locale]}.to_yaml)
         end
       end
     end
@@ -34,7 +34,7 @@ module Gallifreyian
     def to_deep_hash(locale)
       Gallifreyian::Translation.where(language: locale).all.inject({}) do |hash, translation|
         tmp_hash = {}
-        translation.key.split('.').reverse.each_with_index do |key, index|
+        translation.full_key.split('.').reverse.each_with_index do |key, index|
           if index == 0
             tmp_hash = {:"#{key}" => translation.datum.to_s}
           else
