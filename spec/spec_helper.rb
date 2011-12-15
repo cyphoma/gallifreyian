@@ -24,17 +24,23 @@ Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 RSpec.configure do |config|
   config.include Mongoid::Matchers
 
+  def clean_redis_namespace
+    keys = $gallifreyian_store.keys('*')
+    $gallifreyian_store.del(*keys) if keys.any?
+  end
+
   # clean database
   config.before(:each) do
     Mongoid.master.collections.select { |c|
       c.name != 'system.indexes'
     }.each(&:drop)
     Mongoid::IdentityMap.clear
-    $gallifreyian_store.del '*'
+    clean_redis_namespace
   end
 
   config.after(:suite) do
     Mongoid.master.connection.drop_database(Mongoid.database.name)
+    clean_redis_namespace
   end
 
 end
