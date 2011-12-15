@@ -2,6 +2,7 @@
 require 'spec_helper'
 
 describe Gallifreyian::Translation do
+  let(:translation) { Factory :translation }
 
   it 'should have a valid factory' do
     Factory(:translation).should be_valid
@@ -20,6 +21,14 @@ describe Gallifreyian::Translation do
 
     it "should not be valid" do
       Factory.build(:translation, datum: ['test']).should_not be_valid
+    end
+  end
+
+  describe 'callbacks' do
+    it 'should sanitize datum' do
+      translation.datum = '<b><a href="http://foo.com/">foo</a></b><img src="http://foo.com/bar.jpg">'
+      translation.save
+      translation.datum.should eq 'foo'
     end
   end
 end
