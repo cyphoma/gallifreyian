@@ -10,6 +10,6 @@ namespace :gallifreyian do
 
   desc "Export YAML locales files"
   task :export => :environment do
-    Gallifreyian::Exporter.new.run
+    Gallifreyian::Exporter.run
   end
 end

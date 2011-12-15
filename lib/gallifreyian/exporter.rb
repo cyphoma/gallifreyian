@@ -11,14 +11,17 @@ module Gallifreyian
     end
 
     def run
+      raise "#{dump_dir} does not exist." unless File.exists?(dump_dir)
       @locales.each do |locale|
-        File.open(dump_dir.join("#{locale}.yml"), 'w' ) do |out|
-          out.write({locale => all_translations[locale]}.to_yaml)
-        end
+        open(dump_dir.join("#{locale}.yml"), 'w').write({locale => all_translations[locale]}.to_yaml)
       end
     end
 
     class << self
+      def run
+        self.new.run
+      end
+
       def dump_dir
         Rails.root.join('config', 'gallifreyian')
       end
