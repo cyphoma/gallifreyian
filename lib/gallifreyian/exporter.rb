@@ -13,7 +13,9 @@ module Gallifreyian
     def run
       raise "#{dump_dir} does not exist." unless File.exists?(dump_dir)
       @locales.each do |locale|
-        open(dump_dir.join("#{locale}.yml"), 'w').write({locale => all_translations[locale]}.to_yaml)
+        File.open(dump_dir.join("#{locale}.yml"), 'w' ) do |out|
+            out.write({locale => all_translations[locale]}.to_yaml)
+        end
       end
     end
 
