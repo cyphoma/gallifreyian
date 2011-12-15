@@ -30,5 +30,14 @@ describe Gallifreyian::Translation do
       translation.save
       translation.datum.should eq 'foo'
     end
+
+    it 'should sanitize key' do
+      translation.key = 'fr.clé .test'
+      translation.save
+      translation.key.should eq 'fr.cle.test'
+      translation.key = 'fr.clé .<p>testé</p>'
+      translation.save
+      translation.key.should eq 'fr.cle.teste'
+    end
   end
 end

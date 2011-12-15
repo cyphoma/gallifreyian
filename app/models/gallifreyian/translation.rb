@@ -13,7 +13,7 @@ class Gallifreyian::Translation
   # Validations
   #
   validates :language, presence: true
-  validates :key, presence: true, uniqueness: true
+  validates :key,      presence: true, uniqueness: true
   validate  :valid_datum?
 
   # Callbacks
@@ -30,5 +30,6 @@ class Gallifreyian::Translation
 
   def sanitize
     self.datum = Sanitize.clean(self.datum)
+    self.key = Sanitize.clean(self.key).parameterize('.')
   end
 end
