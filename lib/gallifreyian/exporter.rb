@@ -4,13 +4,23 @@ require 'i18n/core_ext/hash' # deep_merge
 module Gallifreyian
   class Exporter
 
+    delegate :dump_dir, to: "self.class"
+
     def initialize(locales)
       @locales = locales
     end
 
     def run
       @locales.each do |locale|
-        #all_translations[locale]
+        File.open(dump_dir.join("#{locale}.yml"), 'w' ) do |out|
+          YAML.dump({locale => all_translations[locale]}, out )
+        end
+      end
+    end
+
+    class << self
+      def dump_dir
+        Rails.root.join('config', 'gallifreyian')
       end
     end
 
