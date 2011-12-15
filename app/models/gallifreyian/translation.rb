@@ -19,7 +19,6 @@ class Gallifreyian::Translation
   # Callbacks
   #
   before_save :sanitize
-  after_save  :to_backend!
 
   private
 
@@ -32,11 +31,6 @@ class Gallifreyian::Translation
   def sanitize
     self.datum = Sanitize.clean(self.datum)
     self.key = Sanitize.clean(self.key).parameterize('.')
-  end
-
-  def to_backend!
-    Gallifreyian::Store.backend.
-      store_translations(self.language, {self.key => self.datum}, escape: false)
   end
 
 end
