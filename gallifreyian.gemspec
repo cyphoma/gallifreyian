@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
   s.add_dependency "mongoid"
   s.add_dependency "bson_ext"
   s.add_dependency "sanitize"
+  s.add_dependency "yajl-ruby"
+  s.add_dependency "redis-namespace"
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency 'factory_girl_rails'

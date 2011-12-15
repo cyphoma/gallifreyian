@@ -30,6 +30,7 @@ RSpec.configure do |config|
       c.name != 'system.indexes'
     }.each(&:drop)
     Mongoid::IdentityMap.clear
+    $gallifreyian_store.del '*'
   end
 
   config.after(:suite) do
