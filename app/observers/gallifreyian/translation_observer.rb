@@ -2,8 +2,7 @@
 module Gallifreyian
   class TranslationObserver < Mongoid::Observer
     def after_save(translation)
-      Gallifreyian::Store.backend.
-        store_translations(translation.language, {translation.key => translation.datum}, escape: false)
+      Gallifreyian::Store.save(translation)
     end
   end
 end
