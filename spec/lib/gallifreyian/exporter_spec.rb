@@ -14,6 +14,7 @@ describe Gallifreyian::Exporter do
   end
 
   it "should dump a yaml file" do
+    pending 'not yet implemented'
     YAML.load_file(Rails.root.join('config', 'locales', 'dumps', 'en.yml'))['en']['test1'].should eq
     "This is a test 1"
   end
