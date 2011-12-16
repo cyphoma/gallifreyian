@@ -28,4 +28,7 @@ Dummy::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Logs ES life
+  Tire.configure { logger Rails.root.join('log', 'elasticsearch.log'), :level => 'debug' }
 end

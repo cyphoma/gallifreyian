@@ -25,6 +25,12 @@ ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
 RSpec.configure do |config|
+  if ENV['JENKINS_ES']
+    Tire.configure do
+      url ENV['JENKINS_ES']
+    end
+  end
+
   config.render_views
   config.include Mongoid::Matchers
 
@@ -43,6 +49,7 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
+    Gallifreyian::Translation.tire.index.delete
     Mongoid.master.connection.drop_database(Mongoid.database.name)
     clean_redis_namespace
   end

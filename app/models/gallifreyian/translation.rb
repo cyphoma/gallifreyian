@@ -3,6 +3,8 @@ require 'sanitize'
 
 class Gallifreyian::Translation
   include Mongoid::Document
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
 
   # Fields
   #
@@ -30,8 +32,27 @@ class Gallifreyian::Translation
   scope :by_language, lambda {|lang| where(language: lang)}
   scope :siblings,    lambda {|key|  where(key:      key)}
 
+  # Tire mapping
+  #
+  mapping do
+    indexes :_id,               type: 'string', index: 'not_analyzed'
+    indexes :language,          type: 'string', index: 'not_analyzed'
+    indexes :datum,             type: 'string', boost: 100
+    indexes :key,               type: 'string'
+    indexes :full_key,          type: 'string'
+  end
+
   def siblings
     self.class.siblings(self.key)
+  end
+
+  def to_indexed_json
+    { _id: id.to_s,
+      language: language,
+      key: key,
+      full_key: full_key,
+      datum: datum
+    }.to_json
   end
 
   private
