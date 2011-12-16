@@ -25,6 +25,15 @@ class Gallifreyian::Translation
   # TODO: fix observer
   after_save :to_i18n
 
+  # Scopes
+  #
+  scope :by_language, lambda {|lang| where(language: lang)}
+  scope :siblings,    lambda {|key|  where(key:      key)}
+
+  def siblings
+    self.class.siblings(self.key)
+  end
+
   private
 
   def sync_keys

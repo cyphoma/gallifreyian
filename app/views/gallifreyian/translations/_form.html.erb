@@ -1,0 +1,6 @@
+<%= simple_form_for translation do |form| %>
+  <%= form.input :key %>
+  <%= form.input :language, collection: I18n.available_locales %>
+  <%= form.input :datum, as: :text %>
+  <%= form.button :submit %>
+<% end %>

@@ -2,12 +2,14 @@
 module Gallifreyian
   class TranslationsController < ApplicationController
     respond_to :html, :js, :json
+    helper_method :languages, :new_translation
 
     # GET /translations
     # GET /translations.js
     # GET /translations.json
     #
     def index
+      new_translation
       respond_with(collection)
     end
 
@@ -16,7 +18,7 @@ module Gallifreyian
     # GET /translations/new.json
     #
     def new
-      respond_with(@translation = Gallifreyian::Translation.new)
+      respond_with(new_translation)
     end
 
     # POST /translations
@@ -24,7 +26,8 @@ module Gallifreyian
     # POST /translations.json
     #
     def create
-      respond_with(@translation = Gallifreyian::Translation.create(params[:translation]))
+      respond_with(@translation = Gallifreyian::Translation.create(params[:translation]),
+        location: translations_path)
     end
 
     # PUT /translations/:id
@@ -32,7 +35,8 @@ module Gallifreyian
     # PUT /translations/:id.json
     #
     def update
-      respond_with(@translation = resource.update_attributes(params[:translation]))
+      resource.update_attributes(params[:translation])
+      respond_with(resource, location: translations_path)
     end
 
     # GET /translations/:id/edit
@@ -52,6 +56,16 @@ module Gallifreyian
       respond_with(resource, location: translations_path)
     end
 
+    protected
+
+    def languages
+      params[:languages] || I18n.available_locales
+    end
+
+    def new_translation
+      @translation ||= Gallifreyian::Translation.new
+    end
+
     private
 
     def resource
@@ -59,7 +73,7 @@ module Gallifreyian
     end
 
     def collection
-      @translations ||= Gallifreyian::Translation.all.page(params[:page])
+      @translations ||= Gallifreyian::Translation.where(language: Gallifreyian::Store.main_language).page(params[:page])
     end
   end
 end

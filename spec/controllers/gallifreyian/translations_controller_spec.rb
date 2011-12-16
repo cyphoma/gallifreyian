@@ -65,7 +65,7 @@ describe Gallifreyian::TranslationsController do
       end
 
       it "should be redirected" do
-        response.should redirect_to "/gallifreyian/translations/#{translation.id}"
+        response.should redirect_to "/gallifreyian/translations"
       end
     end
 
@@ -98,7 +98,7 @@ describe Gallifreyian::TranslationsController do
       end
 
       it "should be redirected" do
-        response.should redirect_to "/gallifreyian/translations/#{translation.id}"
+        response.should redirect_to "/gallifreyian/translations"
       end
     end
 

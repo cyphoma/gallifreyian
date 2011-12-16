@@ -1,10 +1,16 @@
 <div id='translations'>
   <div id="header">
+    <%= render 'form', translation: @translation %>
     <ul>
       <% @translations.each do |translation| %>
         <li>
           <ul>
-            <li><%= translation.key %></li>
+            <li><%= I18n.t(translation.key) %></li>
+            <li>
+              <% languages.each do |language| %>
+                <%= render 'form', translation: sibling_or_new(translation, language) %>
+              <% end %>
+            </li>
           </ul>
         </li>
       <% end %>
