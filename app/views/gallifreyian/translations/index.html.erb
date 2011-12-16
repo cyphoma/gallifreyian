@@ -1,0 +1,15 @@
+<div id='translations'>
+  <div id="header">
+    <ul>
+      <% @translations.each do |translation| %>
+        <li>
+          <ul>
+            <li><%= translation.key %></li>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+
+    <%= paginate @translations %>
+  </div>
+</div>
