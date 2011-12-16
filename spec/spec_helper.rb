@@ -15,6 +15,9 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 # Factories
 Dir["#{File.dirname(__FILE__)}/factories/**/*.rb"].each { |f| require f }
 
+# Mocks
+Dir["#{File.dirname(__FILE__)}/mocks/**/*.rb"].each { |f| require f }
+
 ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -22,6 +25,7 @@ ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 Dir[File.join(ENGINE_RAILS_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
 RSpec.configure do |config|
+  config.render_views
   config.include Mongoid::Matchers
 
   def clean_redis_namespace
