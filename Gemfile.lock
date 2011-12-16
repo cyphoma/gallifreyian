@@ -8,6 +8,7 @@ PATH
       rails (~> 3.1.3)
       redis-namespace
       sanitize
+      simple_form
       yajl-ruby
 
 GEM
@@ -125,6 +126,9 @@ GEM
       rspec (~> 2.7.0)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
+    simple_form (1.5.2)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
     sprockets (2.0.3)
       hike (~> 1.2)
       rack (~> 1.0)
