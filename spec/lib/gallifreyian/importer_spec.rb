@@ -11,7 +11,13 @@ describe Gallifreyian::Importer do
   end
 
   it 'should find by key' do
-    Gallifreyian::I18nKey.where(full_key: 'es.activerecord.errors.template.body').
-      one.datum.should eq 'Se encontraron problemas con los siguientes campos:'
+    Gallifreyian::I18nKey.where(key: 'activerecord.errors.template.body').
+      one.should_not be_blank
+  end
+
+  it 'should find translation' do
+    Gallifreyian::I18nKey.where(key: 'activerecord.errors.template.body').
+      one.translations.where(language: :es).one.datum.should eq 'Se encontraron problemas con los siguientes campos:'
+
   end
 end

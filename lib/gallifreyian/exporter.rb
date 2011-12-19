@@ -31,14 +31,17 @@ module Gallifreyian
 
     protected
 
-    def to_deep_hash(locale)
-      Gallifreyian::I18nKey.where(language: locale).all.inject({}) do |hash, translation|
+    def to_deep_hash
+      Gallifreyian::I18nKey.all.inject({}) do |hash, i18n_key|
         tmp_hash = {}
-        translation.full_key.split('.').reverse.each_with_index do |key, index|
-          if index == 0
-            tmp_hash = {:"#{key}" => translation.datum.to_s}
-          else
-            tmp_hash = {:"#{key}" => tmp_hash}
+        i18n_key.translations.each do |translation|
+          [translation.language.to_s, i18n_key.key].join('.').
+          split('.').reverse.each_with_index do |key, index|
+            if index == 0
+              tmp_hash = {:"#{key}" => translation.datum.to_s}
+            else
+              tmp_hash = {:"#{key}" => tmp_hash}
+            end
           end
         end
         hash.deep_merge!(tmp_hash)
@@ -46,9 +49,7 @@ module Gallifreyian
     end
 
     def all_translations
-      @all_translations ||= @locales.inject({}) do |hash, locale|
-        hash.merge(self.to_deep_hash(locale))
-      end
+      @all_translations ||= self.to_deep_hash
     end
   end
 end

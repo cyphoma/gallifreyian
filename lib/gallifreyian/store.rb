@@ -8,8 +8,10 @@ module Gallifreyian
         I18n::Backend::KeyValue.new($gallifreyian_store)
       end
 
-      def save(translation)
-        self.backend.store_translations(translation.language, {translation.key => translation.datum}, escape: false)
+      def save(i18n)
+        i18n.translations.each do |translation|
+          self.backend.store_translations(translation.language, {i18n.key => translation.datum}, escape: false)
+        end
       end
 
       def bootstrap

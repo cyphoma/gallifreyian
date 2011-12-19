@@ -15,11 +15,13 @@ module Gallifreyian
 
         flatten_keys(translations, false) do |key, datum|
           unless datum.is_a? Hash
-            translation = Gallifreyian::I18nKey.create(full_key: key, datum: datum, language: language)
-            if translation.valid?
+            start = language.length + 1
+            i18n_key = Gallifreyian::I18nKey.find_or_create_by(key: key.slice(start..-1))
+            i18n_key.translations << Gallifreyian::Translation::I18nKey.new(datum: datum, language: language)
+            if i18n_key.save
               count += 1
             else
-              translation.errors.messages.each do |field, message|
+              i18n_key.errors.messages.each do |field, message|
                 warn "#{field} invalid: #{message}"
               end
             end

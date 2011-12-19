@@ -7,10 +7,14 @@ describe Gallifreyian::Exporter do
 
   before do
     (1..3).each do |i|
-      Gallifreyian::I18nKey.create(key: "test#{i}", datum: "This is a test #{i}", language: :en)
+      g = Gallifreyian::I18nKey.new(key: "test#{i}")
+      g.translations << Gallifreyian::Translation::I18nKey.new(datum: "This is a test #{i}", language: :en)
+      g.save
     end
-    Gallifreyian::I18nKey.create(full_key: "en.test.nested", datum: "This is a nested test", language: :en)
-    Gallifreyian::I18nKey.create(full_key: "es.test.nested", datum: "This is a nested es test", language: :es)
+    key = Gallifreyian::I18nKey.create(key: "test.nested")
+    key.translations << Gallifreyian::Translation::I18nKey.new(datum: "This is a nested test", language: :en)
+    key.translations << Gallifreyian::Translation::I18nKey.new(datum: "This is a nested test", language: :es)
+    key.save
     exporter.run
   end
 
@@ -19,6 +23,6 @@ describe Gallifreyian::Exporter do
   end
 
   it 'should have all locales' do
-    exporter.send(:all_translations).keys.should eq [:es, :en]
+    exporter.send(:all_translations).keys.should eq [:en, :es]
   end
 end
