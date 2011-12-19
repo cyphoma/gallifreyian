@@ -27,16 +27,21 @@ class Gallifreyian::I18nKey
 
   # Tire mapping
   #
- # mapping do
- #   indexes :_id,               type: 'string', index: 'not_analyzed'
- #   indexes :language,          type: 'string', index: 'not_analyzed'
- #   indexes :datum,             type: 'string', boost: 100
- #   indexes :key,               type: 'string'
- #   indexes :full_key,          type: 'string'
- # end
+  mapping do
+    indexes :_id,               type: 'string', index: 'not_analyzed'
+    indexes :key,               type: 'string'
+    indexes :translations,      type: 'nested', include_in_parent: true do
+      indexes :language,          type: 'string', index: 'not_analyzed'
+      indexes :datum,             type: 'string', boost: 100
+    end
+  end
 
   def to_indexed_json
-    self.to_json
+    {
+      _id: self.id.to_s,
+      translations: self.translations,
+      key: self.key
+    }.to_json
   end
 
   private
