@@ -62,9 +62,8 @@ class Gallifreyian::I18nKey
     languages = I18n.available_locales - self.translations.map(&:language)
     if languages.any?
       languages.each do |lang|
-        self.translations << Gallifreyian::Translation::I18nKey.new(language: lang)
+        self.translations.create(language: lang)
       end
-      self.save
     end
   end
 
