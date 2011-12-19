@@ -13,7 +13,7 @@ module Gallifreyian
       end
 
       def bootstrap
-        Gallifreyian::Translation.all.each do |translation|
+        Gallifreyian::I18nKey.all.each do |translation|
           self.save(translation)
         end
       end

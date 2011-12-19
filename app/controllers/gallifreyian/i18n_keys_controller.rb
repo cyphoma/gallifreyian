@@ -1,6 +1,6 @@
 # encoding: utf-8
 module Gallifreyian
-  class TranslationsController < ApplicationController
+  class I18nKeysController < ApplicationController
     respond_to :html, :js, :json
     helper_method :languages, :new_translation
 
@@ -26,7 +26,7 @@ module Gallifreyian
     # POST /translations.json
     #
     def create
-      respond_with(@translation = Gallifreyian::Translation.create(params[:translation]),
+      respond_with(@translation = Gallifreyian::I18nKey.create(params[:translation]),
         location: translations_path)
     end
 
@@ -63,17 +63,17 @@ module Gallifreyian
     end
 
     def new_translation
-      @translation ||= Gallifreyian::Translation.new
+      @translation ||= Gallifreyian::I18nKey.new
     end
 
     private
 
     def resource
-      @translation ||= Gallifreyian::Translation.find(params[:id])
+      @translation ||= Gallifreyian::I18nKey.find(params[:id])
     end
 
     def collection
-      @translations ||= Gallifreyian::Translation.where(language: Gallifreyian::Store.main_language).page(params[:page])
+      @translations ||= Gallifreyian::I18nKey.where(language: Gallifreyian::Store.main_language).page(params[:page])
     end
   end
 end

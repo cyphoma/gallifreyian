@@ -7,11 +7,11 @@ describe Gallifreyian::Importer do
   end
 
   it 'should have results' do
-    Gallifreyian::Translation.all.should be_any
+    Gallifreyian::I18nKey.all.should be_any
   end
 
   it 'should find by key' do
-    Gallifreyian::Translation.where(full_key: 'es.activerecord.errors.template.body').
+    Gallifreyian::I18nKey.where(full_key: 'es.activerecord.errors.template.body').
       one.datum.should eq 'Se encontraron problemas con los siguientes campos:'
   end
 end

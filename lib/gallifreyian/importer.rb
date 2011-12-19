@@ -15,7 +15,7 @@ module Gallifreyian
 
         flatten_keys(translations, false) do |key, datum|
           unless datum.is_a? Hash
-            translation = Gallifreyian::Translation.create(full_key: key, datum: datum, language: language)
+            translation = Gallifreyian::I18nKey.create(full_key: key, datum: datum, language: language)
             if translation.valid?
               count += 1
             else

@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'sanitize'
 
-class Gallifreyian::Translation
+class Gallifreyian::I18nKey
   include Mongoid::Document
   include Tire::Model::Search
   include Tire::Model::Callbacks

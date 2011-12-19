@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'spec_helper'
 
-describe Gallifreyian::Translation do
+describe Gallifreyian::I18nKey do
   let(:translation) { Factory :translation }
 
   it 'should have a valid factory' do

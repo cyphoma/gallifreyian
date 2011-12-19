@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'spec_helper'
 
-describe Gallifreyian::TranslationsController do
+describe Gallifreyian::I18nKeysController do
   let(:translation)  { mock_translation }
   let(:translations) { mock_paginate(translation)}
   let(:error)        { mock_error }
@@ -10,7 +10,7 @@ describe Gallifreyian::TranslationsController do
     pending 'bad routes in spec context from views'
 
     before do
-      Gallifreyian::Translation.should_receive(:all).and_return(translations)
+      Gallifreyian::I18nKey.should_receive(:all).and_return(translations)
       translations.should_receive(:page).and_return(translations)
       get :index, use_route: :gallifreyian
     end
@@ -26,7 +26,7 @@ describe Gallifreyian::TranslationsController do
 
   describe 'GET new' do
     before do
-      Gallifreyian::Translation.should_receive(:new).and_return(translation)
+      Gallifreyian::I18nKey.should_receive(:new).and_return(translation)
       get :new, use_route: :gallifreyian
     end
 
@@ -56,7 +56,7 @@ describe Gallifreyian::TranslationsController do
   describe 'POST create' do
     context 'with a valid request' do
       before do
-        Gallifreyian::Translation.should_receive(:create).with({'these' => 'params'}).and_return(translation)
+        Gallifreyian::I18nKey.should_receive(:create).with({'these' => 'params'}).and_return(translation)
         post :create, translation: {'these' => 'params'}, use_route: :gallifreyian
       end
 
@@ -71,7 +71,7 @@ describe Gallifreyian::TranslationsController do
 
     context 'with an invalid request' do
       before do
-        Gallifreyian::Translation.should_receive(:create).with({'these' => 'params'}).and_return(translation)
+        Gallifreyian::I18nKey.should_receive(:create).with({'these' => 'params'}).and_return(translation)
         translation.should_receive(:errors).any_number_of_times.and_return(error)
         post :create, translation: {'these' => 'params'}, use_route: :gallifreyian
       end

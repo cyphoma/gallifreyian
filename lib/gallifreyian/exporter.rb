@@ -32,7 +32,7 @@ module Gallifreyian
     protected
 
     def to_deep_hash(locale)
-      Gallifreyian::Translation.where(language: locale).all.inject({}) do |hash, translation|
+      Gallifreyian::I18nKey.where(language: locale).all.inject({}) do |hash, translation|
         tmp_hash = {}
         translation.full_key.split('.').reverse.each_with_index do |key, index|
           if index == 0

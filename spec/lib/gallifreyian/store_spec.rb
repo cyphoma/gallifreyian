@@ -3,8 +3,8 @@ require 'spec_helper'
 
 describe Gallifreyian::Store do
   before do
-    Gallifreyian::Translation.create(key: "en.plop.nested", datum: "This is a nested en test", language: :en)
-    Gallifreyian::Translation.create(key: "ja.plop.nested", datum: "テストなんです", language: :ja)
+    Gallifreyian::I18nKey.create(key: "en.plop.nested", datum: "This is a nested en test", language: :en)
+    Gallifreyian::I18nKey.create(key: "ja.plop.nested", datum: "テストなんです", language: :ja)
   end
 
   it 'should return translation for en' do

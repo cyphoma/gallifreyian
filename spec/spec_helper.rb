@@ -49,7 +49,7 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    Gallifreyian::Translation.tire.index.delete
+    Gallifreyian::I18nKey.tire.index.delete
     Mongoid.master.connection.drop_database(Mongoid.database.name)
     clean_redis_namespace
   end

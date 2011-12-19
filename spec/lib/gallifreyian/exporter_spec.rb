@@ -7,10 +7,10 @@ describe Gallifreyian::Exporter do
 
   before do
     (1..3).each do |i|
-      Gallifreyian::Translation.create(key: "test#{i}", datum: "This is a test #{i}", language: :en)
+      Gallifreyian::I18nKey.create(key: "test#{i}", datum: "This is a test #{i}", language: :en)
     end
-    Gallifreyian::Translation.create(full_key: "en.test.nested", datum: "This is a nested test", language: :en)
-    Gallifreyian::Translation.create(full_key: "es.test.nested", datum: "This is a nested es test", language: :es)
+    Gallifreyian::I18nKey.create(full_key: "en.test.nested", datum: "This is a nested test", language: :en)
+    Gallifreyian::I18nKey.create(full_key: "es.test.nested", datum: "This is a nested es test", language: :es)
     exporter.run
   end
 
