@@ -25,11 +25,6 @@ class Gallifreyian::I18nKey
   before_save :sanitize
   after_save :to_i18n, :missing_languages
 
-  # Scopes
-  #
-  scope :by_language, lambda {|lang| where(language: lang)}
-  scope :siblings,    lambda {|key|  where(key:      key)}
-
   # Tire mapping
   #
  # mapping do
@@ -39,10 +34,6 @@ class Gallifreyian::I18nKey
  #   indexes :key,               type: 'string'
  #   indexes :full_key,          type: 'string'
  # end
-
-  def siblings
-    self.class.siblings(self.key)
-  end
 
   def to_indexed_json
     self.to_json
