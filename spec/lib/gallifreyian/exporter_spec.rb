@@ -11,7 +11,7 @@ describe Gallifreyian::Exporter do
       g.translations << Gallifreyian::Translation::I18nKey.new(datum: "This is a test #{i}", language: :en)
       g.save
     end
-    key = Gallifreyian::I18nKey.create(key: "test.nested")
+    key = Gallifreyian::I18nKey.new(key: "test.nested")
     key.translations << Gallifreyian::Translation::I18nKey.new(datum: "This is a nested test", language: :en)
     key.translations << Gallifreyian::Translation::I18nKey.new(datum: "This is a nested test", language: :es)
     key.save

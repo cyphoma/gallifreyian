@@ -13,7 +13,7 @@ module Gallifreyian
       private
 
       def valid_datum?
-        unless self.datum.is_a?(String)
+        unless self.datum.nil? || self.datum.is_a?(String)
           errors.add(:datum, :not_a_string)
         end
       end

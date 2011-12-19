@@ -40,5 +40,12 @@ describe Gallifreyian::I18nKey do
       i18n.save
       i18n.key.should eq 'fr.cle.teste'
     end
+
+    it 'should create keys for missing languages' do
+      i18n = Factory.build :i18n
+      i18n.translations.size.should eq 1
+      i18n.save
+      i18n.reload.translations.size.should > 1
+    end
   end
 end

@@ -23,7 +23,7 @@ class Gallifreyian::I18nKey
   # Callbacks
   #
   before_save :sanitize
-  after_save :to_i18n
+  after_save :to_i18n, :missing_languages
 
   # Scopes
   #
@@ -65,6 +65,16 @@ class Gallifreyian::I18nKey
 
   def to_i18n
     Gallifreyian::Store.save(self)
+  end
+
+  def missing_languages
+    languages = I18n.available_locales - self.translations.map(&:language)
+    if languages.any?
+      languages.each do |lang|
+        self.translations << Gallifreyian::Translation::I18nKey.new(language: lang)
+      end
+      self.save
+    end
   end
 
 end
