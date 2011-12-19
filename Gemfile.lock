@@ -1,3 +1,9 @@
+GIT
+  remote: af83@git.af83.com:mongoid_translate.git
+  revision: b49effad1310c3acdf28e0622e54fb647c6845af
+  specs:
+    mongoid_translate (0.0.1)
+
 PATH
   remote: .
   specs:
@@ -158,4 +164,5 @@ DEPENDENCIES
   gallifreyian!
   jquery-rails
   mongoid-rspec
+  mongoid_translate!
   rspec-rails
