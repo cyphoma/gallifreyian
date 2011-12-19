@@ -1,4 +1,4 @@
 Gallifreyian::Engine.routes.draw do
-  root to: "translations#index"
-  resources :translations
+  root to: "i18n_keys#index"
+  resources :i18n_keys
 end

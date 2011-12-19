@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-def mock_translation(options = {}, stubs={})
+def mock_i18n_key(options = {}, stubs={})
   mock = mock_model(Gallifreyian::I18nKey, stubs)
   mock.stub!(:language).and_return([:en, :fr, :de, :ja].sample)
   mock.stub!(:key).and_return(Faker::Lorem.sentence(1).split.join('.'))

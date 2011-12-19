@@ -1,6 +1,9 @@
-<%= simple_form_for translation do |form| %>
+<%= simple_form_for i18n_key do |form| %>
   <%= form.input :key %>
-  <%= form.input :language, collection: I18n.available_locales %>
-  <%= form.input :datum, as: :text %>
+  <%= form.association :translations do |translation| %>
+    <h2><%= translation.object.language %></h2>
+    <%= translation.input :id, as: :hidden %>
+    <%= translation.input :datum, as: :text %>
+  <% end %>
   <%= form.button :submit %>
 <% end %>

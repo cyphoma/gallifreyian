@@ -1,21 +1,18 @@
-<div id='translations'>
+<div id='i18n_keys'>
   <div id="header">
-    <%= render 'form', translation: @translation %>
     <ul>
-      <% @translations.each do |translation| %>
+      <% @i18n_keys.each do |i18n_key| %>
         <li>
           <ul>
-            <li><%= I18n.t(translation.key) %></li>
+            <li><%= I18n.t(i18n_key.key) %></li>
             <li>
-              <% languages.each do |language| %>
-                <%= render 'form', translation: sibling_or_new(translation, language) %>
-              <% end %>
+                <%= render 'form', i18n_key: i18n_key %>
             </li>
           </ul>
         </li>
       <% end %>
     </ul>
 
-    <%= paginate @translations %>
+    <%= paginate @i18n_keys %>
   </div>
 </div>

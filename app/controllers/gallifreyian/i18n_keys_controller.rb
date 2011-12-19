@@ -2,58 +2,58 @@
 module Gallifreyian
   class I18nKeysController < ApplicationController
     respond_to :html, :js, :json
-    helper_method :languages, :new_translation
+    helper_method :languages, :new_i18n_key
 
-    # GET /translations
-    # GET /translations.js
-    # GET /translations.json
+    # GET /i18n_keys
+    # GET /i18n_keys.js
+    # GET /i18n_keys.json
     #
     def index
-      new_translation
+      new_i18n_key
       respond_with(collection)
     end
 
-    # GET /translations/new
-    # GET /translations/new.js
-    # GET /translations/new.json
+    # GET /i18n_keys/new
+    # GET /i18n_keys/new.js
+    # GET /i18n_keys/new.json
     #
     def new
-      respond_with(new_translation)
+      respond_with(new_i18n_key)
     end
 
-    # POST /translations
-    # POST /translations.js
-    # POST /translations.json
+    # POST /i18n_keys
+    # POST /i18n_keys.js
+    # POST /i18n_keys.json
     #
     def create
-      respond_with(@translation = Gallifreyian::I18nKey.create(params[:translation]),
-        location: translations_path)
+      respond_with(@i18n_key = Gallifreyian::I18nKey.create(params[:i18n_key]),
+        location: i18n_keys_path)
     end
 
-    # PUT /translations/:id
-    # PUT /translations/:id.js
-    # PUT /translations/:id.json
+    # PUT /i18n_keys/:id
+    # PUT /i18n_keys/:id.js
+    # PUT /i18n_keys/:id.json
     #
     def update
-      resource.update_attributes(params[:translation])
-      respond_with(resource, location: translations_path)
+      resource.update_attributes(params[:i18n_key])
+      respond_with(resource, location: i18n_keys_path)
     end
 
-    # GET /translations/:id/edit
-    # GET /translations/:id/edit.js
-    # GET /translations/:id/edit.json
+    # GET /i18n_keys/:id/edit
+    # GET /i18n_keys/:id/edit.js
+    # GET /i18n_keys/:id/edit.json
     #
     def edit
       respond_with(resource)
     end
 
-    # DELETE /translations/:id
-    # DELETE /translations/:id.js
-    # DELETE /translations/:id.json
+    # DELETE /i18n_keys/:id
+    # DELETE /i18n_keys/:id.js
+    # DELETE /i18n_keys/:id.json
     #
     def destroy
       resource.destroy
-      respond_with(resource, location: translations_path)
+      respond_with(resource, location: i18n_keys_path)
     end
 
     protected
@@ -62,18 +62,18 @@ module Gallifreyian
       params[:languages] || I18n.available_locales
     end
 
-    def new_translation
-      @translation ||= Gallifreyian::I18nKey.new
+    def new_i18n_key
+      @i18n_key ||= Gallifreyian::I18nKey.new
     end
 
     private
 
     def resource
-      @translation ||= Gallifreyian::I18nKey.find(params[:id])
+      @i18n_key ||= Gallifreyian::I18nKey.find(params[:id])
     end
 
     def collection
-      @translations ||= Gallifreyian::I18nKey.where(language: Gallifreyian::Store.main_language).page(params[:page])
+      @i18n_keys ||= Gallifreyian::I18nKey.all.page(params[:page])
     end
   end
 end
