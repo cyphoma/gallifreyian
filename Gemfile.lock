@@ -1,6 +1,6 @@
 GIT
   remote: af83@git.af83.com:mongoid_translate.git
-  revision: c68480cdab917069736ccc83b65429a530ab951b
+  revision: 67ca0111362aa64a9b8f8ba964412119077d5030
   branch: typage
   specs:
     mongoid_translate (0.0.1)
