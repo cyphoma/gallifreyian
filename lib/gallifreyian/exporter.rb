@@ -34,6 +34,7 @@ module Gallifreyian
     def to_deep_hash
       Gallifreyian::I18nKey.all.inject({}) do |hash, i18n_key|
         tmp_hash = {}
+        new_hash = {}
         i18n_key.translations.each do |translation|
           [translation.language.to_s, i18n_key.key].join('.').
           split('.').reverse.each_with_index do |key, index|
@@ -43,8 +44,9 @@ module Gallifreyian
               tmp_hash = {:"#{key}" => tmp_hash}
             end
           end
+          new_hash.merge!(tmp_hash)
         end
-        hash.deep_merge!(tmp_hash)
+        hash.deep_merge!(new_hash)
       end
     end
 
