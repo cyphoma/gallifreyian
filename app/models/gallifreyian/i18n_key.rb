@@ -55,7 +55,7 @@ class Gallifreyian::I18nKey
 
   class << self
     def search(params = {})
-      tire.search do
+      tire.search(:load => true) do
         params[:query].blank? ? query { all } : query { string params[:query] }
         filter :term, section: params[:section] if params[:section]
         filter :term, state: params[:state] if params[:state]

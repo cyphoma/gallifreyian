@@ -1,0 +1,4 @@
+<%= simple_form_for :search, :method => :get, :url => root_path do |form| %>
+  <%= form.input :query %>
+  <%= form.button :submit, t('search.button') %>
+<% end %>

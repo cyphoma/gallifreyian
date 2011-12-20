@@ -73,7 +73,8 @@ module Gallifreyian
     end
 
     def collection
-      @i18n_keys ||= Gallifreyian::I18nKey.all.page(params[:page])
+      search_params = params[:search] || {}
+      @i18n_keys ||= Gallifreyian::I18nKey.search(search_params)
     end
   end
 end
