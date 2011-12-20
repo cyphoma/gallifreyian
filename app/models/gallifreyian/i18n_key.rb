@@ -10,6 +10,7 @@ class Gallifreyian::I18nKey
   # Fields
   #
   field :key,         type: String
+  field :section,     type: String
 
   # Translated fields
   #
@@ -22,7 +23,7 @@ class Gallifreyian::I18nKey
 
   # Callbacks
   #
-  before_save :sanitize
+  before_save :sanitize, :set_section
   after_save :to_i18n, :missing_languages
 
   # Tire mapping
@@ -55,6 +56,15 @@ class Gallifreyian::I18nKey
   end
 
   private
+
+  def set_section
+    sections = key.split('.')
+    if sections.size > 1
+      self.section = sections.first
+    else
+      self.section = 'global'
+    end
+  end
 
   def valid_datum?
     unless self.datum.is_a?(String)

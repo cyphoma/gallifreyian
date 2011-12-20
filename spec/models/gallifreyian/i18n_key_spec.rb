@@ -10,7 +10,7 @@ describe Gallifreyian::I18nKey do
   end
 
   describe 'fields' do
-    it { should have_field(:key).of_type(String) }
+    it { should have_field(:key, :section).of_type(String) }
   end
 
   describe 'validations' do
@@ -46,6 +46,26 @@ describe Gallifreyian::I18nKey do
       i18n.translations.size.should eq 1
       i18n.save
       i18n.reload.translations.size.should > 1
+    end
+
+    describe 'sections' do
+      it 'should persists a section based on key' do
+        i18n.key = 'test.plop'
+        i18n.save
+        i18n.section.should eq 'test'
+      end
+
+      it 'should persists a section based on key' do
+        i18n.key = 'test.plop.foo.bar'
+        i18n.save
+        i18n.section.should eq 'test'
+      end
+
+      it 'should be global by default' do
+        i18n.key = 'test'
+        i18n.save
+        i18n.section.should eq 'global'
+      end
     end
   end
 
