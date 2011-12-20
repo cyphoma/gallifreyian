@@ -3,7 +3,7 @@
   <%= form.association :translations do |translation| %>
     <h2><%= translation.object.language %></h2>
     <%= translation.input :id, as: :hidden %>
-    <%= translation.input :datum, as: :text %>
+    <%= translation.input :datum, as: :text, input_html: {rows: 2, cols: 100} %>
   <% end %>
   <%= form.button :submit %>
 <% end %>
