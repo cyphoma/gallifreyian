@@ -170,14 +170,19 @@ describe Gallifreyian::I18nKey do
           results.size.should eq 2
         end
 
-        it 'should find based on language' do
-          results = Gallifreyian::I18nKey.search(language: 'fr').results
+        it 'should find based on language (french)' do
+          results = Gallifreyian::I18nKey.search(languages: ['fr']).results
           results.size.should eq 1
         end
 
-        it "should not have results" do
-          results = Gallifreyian::I18nKey.search(language: 'en').results
+        it 'should find based on language (english)' do
+          results = Gallifreyian::I18nKey.search(languages: ['en']).results
           results.size.should eq 1
+        end
+
+        it "should have a total of 2 results" do
+          results = Gallifreyian::I18nKey.search(languages: ['fr', 'en']).results
+          results.size.should eq 2
         end
 
         it 'should wrapping up' do
