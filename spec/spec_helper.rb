@@ -47,6 +47,7 @@ RSpec.configure do |config|
     Mongoid::IdentityMap.clear
     Gallifreyian::I18nKey.tire.index.delete
     Gallifreyian::I18nKey.tire.index.create
+    Gallifreyian::I18nKey.tire.index.refresh
     clean_redis_namespace
   end
 

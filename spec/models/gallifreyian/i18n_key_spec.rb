@@ -98,6 +98,9 @@ describe Gallifreyian::I18nKey do
           results.size.should eq 1
         end
       end
+    end
+
+    describe 'seach with filters' do
 
       context 'with a filter on section' do
         before do
@@ -108,6 +111,38 @@ describe Gallifreyian::I18nKey do
 
         it 'should have one result' do
           results = Gallifreyian::I18nKey.search(section: 'test').results
+          results.size.should eq 1
+        end
+      end
+
+      context 'with a filter on language (nested)' do
+        before do
+          i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
+          i18n.translations.build(language: :fr, datum: 'On veut trouver.')
+          i18n.save
+          i18n = Gallifreyian::I18nKey.new(key: 'foo.bar.tardis')
+          i18n.translations.build(language: :en, datum: 'On veut trouver.')
+          i18n.save
+          Gallifreyian::I18nKey.tire.index.refresh
+        end
+
+        it "should have a total of 2 results" do
+          results = Gallifreyian::I18nKey.search.results
+          results.size.should eq 2
+        end
+
+        it 'should find based on language' do
+          results = Gallifreyian::I18nKey.search(language: 'fr').results
+          results.size.should eq 1
+        end
+
+        it "should not have results" do
+          results = Gallifreyian::I18nKey.search(language: 'en').results
+          results.size.should eq 1
+        end
+
+        it 'should wrapping up' do
+          results = Gallifreyian::I18nKey.search(query: 'veut', section: 'foo', language: 'en').results
           results.size.should eq 1
         end
       end

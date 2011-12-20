@@ -50,10 +50,9 @@ class Gallifreyian::I18nKey
   class << self
     def search(params = {})
       tire.search do
-        params[:query].blank? ?
-          query { all } :
-          query { string params[:query] }
-          filter :term, section: params[:section] if params[:section]
+        params[:query].blank? ? query { all } : query { string params[:query] }
+        filter :term, section: params[:section] if params[:section]
+        filter :term, 'translations.language' => params[:language] if params[:language]
       end
     end
   end
