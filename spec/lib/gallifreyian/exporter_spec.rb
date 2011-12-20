@@ -23,7 +23,7 @@ describe Gallifreyian::Exporter do
   end
 
   it 'should have all locales' do
-    locales = exporter.send(:all_translations).keys
+    locales = Gallifreyian::Store.all_translations.keys
     locales.should_not be_empty
     I18n.available_locales.each do |locale|
       locales.include?(locale).should be_true
