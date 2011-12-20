@@ -74,7 +74,7 @@ module Gallifreyian
 
     def collection
       search_params = params[:search] || {}
-      @i18n_keys ||= Gallifreyian::I18nKey.search(search_params)
+      @i18n_keys ||= Gallifreyian::I18nKey.search(search_params.merge(params.slice('page', 'per_page')))
     end
   end
 end
