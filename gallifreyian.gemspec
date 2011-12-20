@@ -9,9 +9,8 @@ Gem::Specification.new do |s|
   s.version     = Gallifreyian::VERSION
   s.authors     = ["chatgris", "Romain Gauthier"]
   s.email       = ["jboyer@af83.com", "romain.gauthier@af83.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Gallifreyian."
-  s.description = "TODO: Description of Gallifreyian."
+  s.summary     = "I18N web ui and store."
+  s.description = "I18N web ui and store."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["specs/**/*"]
