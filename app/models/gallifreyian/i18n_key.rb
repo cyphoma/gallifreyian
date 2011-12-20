@@ -33,6 +33,7 @@ class Gallifreyian::I18nKey
     indexes :_id,               type: 'string', index: 'not_analyzed'
     indexes :key,               type: 'string'
     indexes :section,           type: 'string', index: 'not_analyzed'
+    indexes :state,             type: 'string', index: 'not_analyzed'
     indexes :translations,      type: 'nested', include_in_parent: true do
       indexes :language,          type: 'string', index: 'not_analyzed'
       indexes :datum,             type: 'string', boost: 100
@@ -44,7 +45,8 @@ class Gallifreyian::I18nKey
       _id: self.id.to_s,
       translations: self.translations,
       key: self.key,
-      section: self.section
+      section: self.section,
+      state: self.state
     }.to_json
   end
 
@@ -53,6 +55,7 @@ class Gallifreyian::I18nKey
       tire.search do
         params[:query].blank? ? query { all } : query { string params[:query] }
         filter :term, section: params[:section] if params[:section]
+        filter :term, state: params[:state] if params[:state]
         filter :term, 'translations.language' => params[:language] if params[:language]
       end
     end

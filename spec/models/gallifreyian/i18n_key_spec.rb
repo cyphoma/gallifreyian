@@ -153,10 +153,42 @@ describe Gallifreyian::I18nKey do
         end
 
         it 'should wrapping up' do
-          results = Gallifreyian::I18nKey.search(query: 'veut', section: 'foo', language: 'en').results
+          results = Gallifreyian::I18nKey.search({
+            query: 'veut', section: 'foo', language: 'en', state: 'validation_pending'
+          }).results
           results.size.should eq 1
         end
       end
+
+      context 'with a filter on state' do
+        before do
+          i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
+          i18n.translations.build(language: :fr, datum: 'On veut trouver.')
+          i18n.save
+          i18n.save
+          i18n = Gallifreyian::I18nKey.new(key: 'foo.bar.tardis')
+          i18n.translations.build(language: :en, datum: 'On veut trouver.')
+          i18n.save
+          Gallifreyian::I18nKey.tire.index.refresh
+        end
+
+        it "should have a total of 2 results" do
+          results = Gallifreyian::I18nKey.search.results
+          results.size.should eq 2
+        end
+
+        it 'should find based on valid state' do
+          results = Gallifreyian::I18nKey.search(state: 'valid').results
+          results.size.should eq 1
+        end
+
+        it 'should find based on validation_pending' do
+          results = Gallifreyian::I18nKey.search(state: 'validation_pending').results
+          results.size.should eq 1
+        end
+
+      end
     end
+
   end
 end
