@@ -55,8 +55,8 @@ class Gallifreyian::I18nKey
 
   class << self
     def search(params = {})
-      size = params[:per_page].present? ? opts[:per_page] : 10
-      from = ((params[:page]||1).to_i-1)*size.to_i
+      size = params['per_page'].present? ? opts['per_page'] : 10
+      from = ((params['page']||1).to_i-1)*size.to_i
 
       params[:languages].reject!(&:blank?) if params[:languages]
 
