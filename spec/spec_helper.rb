@@ -45,6 +45,8 @@ RSpec.configure do |config|
       c.name != 'system.indexes'
     }.each(&:drop)
     Mongoid::IdentityMap.clear
+    Gallifreyian::I18nKey.tire.index.delete
+    Gallifreyian::I18nKey.tire.index.create
     clean_redis_namespace
   end
 

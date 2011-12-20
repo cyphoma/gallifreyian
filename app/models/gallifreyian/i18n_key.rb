@@ -44,6 +44,16 @@ class Gallifreyian::I18nKey
     }.to_json
   end
 
+  class << self
+    def search(params = {})
+      tire.search do
+        params[:query].blank? ?
+          query { all } :
+          query { string params[:query] }
+      end
+    end
+  end
+
   private
 
   def valid_datum?

@@ -48,4 +48,36 @@ describe Gallifreyian::I18nKey do
       i18n.reload.translations.size.should > 1
     end
   end
+
+
+  describe 'search' do
+    describe 'full text search' do
+      before do
+        i18n
+        Gallifreyian::I18nKey.tire.index.refresh
+      end
+
+      context 'no pattern is givent' do
+        it 'should have results' do
+          results = Gallifreyian::I18nKey.search.results
+          results.size.should eq 1
+        end
+      end
+
+      context 'bad pattern is given' do
+        it 'should not have results' do
+          results = Gallifreyian::I18nKey.search(query: 'bogus').results
+          results.should_not be_any
+        end
+      end
+
+      context 'good pattern is given' do
+        it 'should have results' do
+          pattern = i18n.translations.first.datum.split.first
+          results = Gallifreyian::I18nKey.search(query: pattern).results
+          results.size.should eq 1
+        end
+      end
+    end
+  end
 end
