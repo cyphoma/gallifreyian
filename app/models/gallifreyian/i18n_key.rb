@@ -73,8 +73,8 @@ class Gallifreyian::I18nKey
       tire.search(:load => true) do
         params[:query].blank? ? query { all } : query { string params[:query] }
 
-        filter :term,  section: params[:section]                     if params[:section]
-        filter :term,  state: params[:state]                         if params[:state]
+        filter :term,  section: params[:section]                     if params[:section].present?
+        filter :term,  state: params[:state]                         if params[:state].present?
         filter :term,  done: params[:done]                           unless params[:done].nil?
         filter :terms, 'translations.language' => params[:languages] if params[:languages].present?
 
