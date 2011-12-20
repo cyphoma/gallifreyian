@@ -16,8 +16,12 @@ module Gallifreyian
         end
       end
 
-      def all_translations
-        Gallifreyian::I18nKey.all.inject({}) do |hash, i18n_key|
+      def all_translations(section = nil)
+        collection = Gallifreyian::I18nKey.all
+        if section
+          collection.where(section: section)
+        end
+        collection.inject({}) do |hash, i18n_key|
           tmp_hash = {}
           new_hash = {}
           i18n_key.translations.each do |translation|
