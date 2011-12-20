@@ -64,6 +64,11 @@ class Gallifreyian::I18nKey
         filter :term, state: params[:state] if params[:state]
         filter :term, done: params[:done] unless params[:done].nil?
         filter :term, 'translations.language' => params[:language] if params[:language]
+
+        facet 'sections' do
+          terms :section, global: true
+        end
+
         from from
         size size
       end

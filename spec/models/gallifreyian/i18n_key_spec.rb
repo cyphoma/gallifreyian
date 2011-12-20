@@ -132,12 +132,13 @@ describe Gallifreyian::I18nKey do
       end
     end
 
-    describe 'seach with filters' do
+    describe 'search with filters' do
 
       context 'with a filter on section' do
         before do
           i18n.key = 'test.plop'
           i18n.save
+          i18n = Gallifreyian::I18nKey.create(key: 'foo.bar')
           Gallifreyian::I18nKey.tire.index.refresh
         end
 
@@ -145,6 +146,12 @@ describe Gallifreyian::I18nKey do
           results = Gallifreyian::I18nKey.search(section: 'test').results
           results.size.should eq 1
         end
+
+        it 'should have a facets on section' do
+          facets = Gallifreyian::I18nKey.search(section: 'test').facets
+          facets['sections']['terms'].should eq [{"term"=>"test", "count"=>1}, {"term"=>"foo", "count"=>1}]
+        end
+
       end
 
       context 'with a filter on language (nested)' do
