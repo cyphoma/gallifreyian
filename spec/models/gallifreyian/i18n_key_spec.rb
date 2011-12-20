@@ -77,7 +77,7 @@ describe Gallifreyian::I18nKey do
         Gallifreyian::I18nKey.tire.index.refresh
       end
 
-      context 'no pattern is givent' do
+      context 'no pattern is given' do
         it 'should have results' do
           results = Gallifreyian::I18nKey.search.results
           results.size.should eq 1
@@ -95,6 +95,19 @@ describe Gallifreyian::I18nKey do
         it 'should have results' do
           pattern = i18n.translations.first.datum.split.first
           results = Gallifreyian::I18nKey.search(query: pattern).results
+          results.size.should eq 1
+        end
+      end
+
+      context 'with a filter on section' do
+        before do
+          i18n.key = 'test.plop'
+          i18n.save
+          Gallifreyian::I18nKey.tire.index.refresh
+        end
+
+        it 'should have one result' do
+          results = Gallifreyian::I18nKey.search(section: 'test').results
           results.size.should eq 1
         end
       end
