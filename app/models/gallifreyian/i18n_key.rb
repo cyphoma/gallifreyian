@@ -55,12 +55,17 @@ class Gallifreyian::I18nKey
 
   class << self
     def search(params = {})
+      size = params[:per_page].present? ? opts[:per_page] : 10
+      from = ((params[:page]||1).to_i-1)*size.to_i
+
       tire.search(:load => true) do
         params[:query].blank? ? query { all } : query { string params[:query] }
         filter :term, section: params[:section] if params[:section]
         filter :term, state: params[:state] if params[:state]
         filter :term, done: params[:done] unless params[:done].nil?
         filter :term, 'translations.language' => params[:language] if params[:language]
+        from from
+        size size
       end
     end
   end
