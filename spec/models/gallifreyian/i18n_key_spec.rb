@@ -12,6 +12,7 @@ describe Gallifreyian::I18nKey do
 
   describe 'fields' do
     it { should have_field(:key, :section).of_type(String) }
+    it { should have_field(:done).of_type(Boolean) }
   end
 
   describe 'validations' do
@@ -76,6 +77,19 @@ describe Gallifreyian::I18nKey do
         i18n.state.should eq :validation_pending
         i18n.save
         i18n.state.should eq :valid
+      end
+    end
+
+    describe 'done' do
+      it 'should set done to treu' do
+        i18n.reload.translations.each do |translation|
+          translation.datum = 'Content'
+        end
+        i18n.save
+        i18n.reload.done?.should be_true
+        i18n.translations.last.datum = ''
+        i18n.save
+        i18n.done?.should be_false
       end
     end
   end

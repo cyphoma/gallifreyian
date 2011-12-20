@@ -12,6 +12,7 @@ class Gallifreyian::I18nKey
   field :key,         type: String
   field :section,     type: String
   field :state,       type: Symbol
+  field :done,        type: Boolean
 
   # Translated fields
   #
@@ -24,7 +25,7 @@ class Gallifreyian::I18nKey
 
   # Callbacks
   #
-  before_save :set_state, :sanitize, :set_section
+  before_save :set_state, :sanitize, :set_done, :set_section
   after_save :to_i18n, :missing_languages
 
   # Tire mapping
@@ -81,6 +82,11 @@ class Gallifreyian::I18nKey
     else
       self.section = 'global'
     end
+  end
+
+  def set_done
+    self.done = self.translations.all? { |translation| translation.datum.present? }
+    return
   end
 
   def valid_datum?
