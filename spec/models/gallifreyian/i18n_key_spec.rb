@@ -26,10 +26,9 @@ describe Gallifreyian::I18nKey do
 
   describe 'callbacks' do
     it 'should sanitize datum' do
-      translation.datum = '<b><a href="http://foo.com/">foo</a></b><img src="http://foo.com/bar.jpg">'
-      i18n.translations << translation
+      i18n.translations.first.datum = '<b><a href="http://foo.com/">foo</a></b><img src="http://foo.com/bar.jpg">'
       i18n.save
-      i18n.translations.last.datum.should eq 'foo'
+      i18n.translations.first.datum.should eq 'foo'
     end
 
     it 'should sanitize key' do
