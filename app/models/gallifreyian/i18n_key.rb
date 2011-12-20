@@ -11,6 +11,7 @@ class Gallifreyian::I18nKey
   #
   field :key,         type: String
   field :section,     type: String
+  field :state,       type: Symbol
 
   # Translated fields
   #
@@ -23,7 +24,7 @@ class Gallifreyian::I18nKey
 
   # Callbacks
   #
-  before_save :sanitize, :set_section
+  before_save :set_state, :sanitize, :set_section
   after_save :to_i18n, :missing_languages
 
   # Tire mapping
@@ -58,6 +59,17 @@ class Gallifreyian::I18nKey
   end
 
   private
+
+  def set_state
+    translation = self.translations.where(language: Gallifreyian::Store.main_language).one
+    if translation
+      if translation.datum_changed?
+        self.state = :validation_pending
+      else
+        self.state = :valid
+      end
+    end
+  end
 
   def set_section
     sections = key.split('.')

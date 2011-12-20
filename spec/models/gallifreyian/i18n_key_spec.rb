@@ -4,6 +4,7 @@ require 'spec_helper'
 describe Gallifreyian::I18nKey do
   let(:i18n) { Factory :i18n }
   let(:translation) { Factory.build :translation }
+  let(:main_language) { Gallifreyian::Store.main_language }
 
   it 'should have a valid factory' do
     Factory(:i18n).should be_valid
@@ -64,6 +65,17 @@ describe Gallifreyian::I18nKey do
         i18n.key = 'test'
         i18n.save
         i18n.section.should eq 'global'
+      end
+    end
+
+    describe 'state' do
+      it 'should set i18n as :validation_pending' do
+        translation = i18n.translations.where(language: main_language).one
+        translation.datum = 'Nouvelle traduction'
+        i18n.save
+        i18n.state.should eq :validation_pending
+        i18n.save
+        i18n.state.should eq :valid
       end
     end
   end
