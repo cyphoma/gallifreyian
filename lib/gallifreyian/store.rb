@@ -2,7 +2,6 @@
 module Gallifreyian
   class Store
     class << self
-      attr_accessor :main_language
 
       def backend
         I18n::Backend::KeyValue.new($gallifreyian_store)

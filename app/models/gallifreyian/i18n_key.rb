@@ -81,7 +81,7 @@ class Gallifreyian::I18nKey
   private
 
   def set_state
-    translation = self.translations.where(language: Gallifreyian::Store.main_language).one
+    translation = self.translations.where(language: Gallifreyian::Configuration.main_language).one
     if translation
       if translation.datum_changed?
         self.state = :validation_pending

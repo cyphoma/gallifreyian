@@ -4,7 +4,7 @@ require 'spec_helper'
 describe Gallifreyian::I18nKey do
   let(:i18n) { Factory :i18n }
   let(:translation) { Factory.build :translation }
-  let(:main_language) { Gallifreyian::Store.main_language }
+  let(:main_language) { Gallifreyian::Configuration.main_language }
 
   it 'should have a valid factory' do
     Factory(:i18n).should be_valid
