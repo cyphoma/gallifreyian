@@ -1,4 +1,13 @@
 <%= simple_form_for :search, :method => :get, :url => root_path do |form| %>
+<fieldset>
+  <h2>t('search.quick')</h2>
   <%= form.input :query %>
   <%= form.button :submit, t('search.button') %>
+</fieldset>
+
+<fieldset>
+  <h2>t('search.select_languages')</h2>
+  <%= form.input :languages, :collection => I18n.available_locales, :as => :check_boxes, :required => false %>
+</fieldset>
+
 <% end %>

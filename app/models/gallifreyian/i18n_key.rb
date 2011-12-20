@@ -58,6 +58,8 @@ class Gallifreyian::I18nKey
       size = params[:per_page].present? ? opts[:per_page] : 10
       from = ((params[:page]||1).to_i-1)*size.to_i
 
+      params[:languages].reject!(&:blank?) if params[:languages]
+
       tire.search(:load => true) do
         params[:query].blank? ? query { all } : query { string params[:query] }
 
