@@ -81,7 +81,7 @@ describe Gallifreyian::I18nKey do
     end
 
     describe 'done' do
-      it 'should set done to treu' do
+      it 'should set done to true' do
         i18n.reload.translations.each do |translation|
           translation.datum = 'Content'
         end
@@ -90,6 +90,13 @@ describe Gallifreyian::I18nKey do
         i18n.translations.last.datum = ''
         i18n.save
         i18n.done?.should be_false
+      end
+
+      it 'should set done to false' do
+        i18n = Gallifreyian::I18nKey.new(key: 'foo.bar.tardis')
+        i18n.translations.build(language: :en, datum: '')
+        i18n.save
+        i18n.done.should be_false
       end
     end
   end
@@ -198,6 +205,37 @@ describe Gallifreyian::I18nKey do
 
         it 'should find based on validation_pending' do
           results = Gallifreyian::I18nKey.search(state: 'validation_pending').results
+          results.size.should eq 1
+        end
+
+      end
+
+      context 'with a filter on done' do
+        before do
+          i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
+          i18n.translations.build(language: :fr, datum: 'On veut trouver.')
+          i18n.translations.each do |translation|
+            translation.datum = 'Document traduit.'
+          end
+          i18n.save
+          i18n = Gallifreyian::I18nKey.new(key: 'foo.bar.tardis')
+          i18n.translations.build(language: :en, datum: '')
+          i18n.save
+          Gallifreyian::I18nKey.tire.index.refresh
+        end
+
+        it "should have a total of 2 results" do
+          results = Gallifreyian::I18nKey.search.results
+          results.size.should eq 2
+        end
+
+        it 'should find completed translation' do
+          results = Gallifreyian::I18nKey.search(done: true).results
+          results.size.should eq 1
+        end
+
+        it 'should find uncompleted translation' do
+          results = Gallifreyian::I18nKey.search(done: false).results
           results.size.should eq 1
         end
 
