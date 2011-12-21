@@ -15,7 +15,7 @@
     <% sections.each do |section| %>
       <p>
         <%= link_to t("gallifreyian.search.sections.#{section['term']}"), '#',
-            'data-term' => section['term'], class="i18n-section" %>
+            'data-term' => section['term'], 'class' => "i18n-section" %>
         (<%= section['count'] %>)
       </p>
     <% end %>
