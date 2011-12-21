@@ -75,8 +75,20 @@ module Gallifreyian
     end
 
     def collection
-      search_params = params[:search] || {}
-      @i18n_keys ||= Gallifreyian::I18nKey.search(search_params.merge(params.slice('page', 'per_page')))
+      @i18n_keys ||= Gallifreyian::I18nKey.search(search_params)
+    end
+
+    def search_params
+      if search_params
+        @search_params
+      else
+        @search_params = params[:search] || {}
+
+        # Clean inputs
+        @search_params[:done] = ((@search_params[:done] == 'done') ? true : false) if @search_params[:done].present?
+        @search_params[:languages].reject!(&:blank?) if @search_params[:languages]
+        @search_params.merge!(params.slice('page', 'per_page'))
+      end
     end
   end
 end

@@ -22,4 +22,19 @@
     <%= form.input :section, :as => :hidden %>
 </fieldset>
 
+<fieldset>
+  <h2><%= t('gallifreyian.search.states.title') %></h2>
+  <%= form.input :state,
+      :collection => Gallifreyian::I18nKey::STATES.map { |state|
+        [t("gallifreyian.search.states.state.#{state}"), state]
+      }, :required => false
+  %>
+  <%= form.input :done,
+      :collection => [[t('gallifreyian.search.incomplete'), :incomplete],
+                      [t('gallifreyian.search.complete'), :done]],
+      :required => false
+  %>
+</fieldset>
+
+
 <% end %>
