@@ -30,6 +30,8 @@ class Gallifreyian::I18nKey
 
   # Tire mapping
   #
+  index_name Gallifreyian::Configuration.index_name || 'gallifreyian'
+
   mapping do
     indexes :_id,               type: 'string', index: 'not_analyzed'
     indexes :key,               type: 'string'
