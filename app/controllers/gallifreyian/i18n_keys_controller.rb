@@ -63,7 +63,9 @@ module Gallifreyian
     end
 
     def new_i18n_key
-      @i18n_key ||= Gallifreyian::I18nKey.new
+      @i18n_key ||=
+        i18n_key = Gallifreyian::I18nKey.new
+        i18n_key.translations.build(language: Gallifreyian::Configuration.main_language)
     end
 
     private
