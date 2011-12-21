@@ -216,7 +216,7 @@ describe Gallifreyian::I18nKey do
 
         it 'should wrapping up' do
           results = Gallifreyian::I18nKey.search({
-            query: 'veut', section: 'foo', language: 'en', state: 'validation_pending'
+            query: 'veut', section: 'foo', languages: ['en'], state: 'validation_pending'
           }).results
           results.size.should eq 1
         end
