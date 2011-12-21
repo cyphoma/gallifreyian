@@ -14,11 +14,12 @@
   <h2><%= t('gallifreyian.search.sections.title') %></h2>
     <% sections.each do |section| %>
       <p>
-        <%= link_to t("gallifreyian.search.sections.#{section['term']}"), '#', 'data-term' => section['term'] %>
+        <%= link_to t("gallifreyian.search.sections.#{section['term']}"), '#',
+            'data-term' => section['term'], class="i18n-section" %>
         (<%= section['count'] %>)
-        <%= form.input :section, :as => :hidden %>
       </p>
     <% end %>
+    <%= form.input :section, :as => :hidden %>
 </fieldset>
 
 <% end %>
