@@ -2,6 +2,7 @@
 module Gallifreyian
   class ApplicationController < ActionController::Base
     layout :choose_layout
+    helper Gallifreyian::Configuration.helpers
 
     private
 

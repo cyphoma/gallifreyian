@@ -4,10 +4,14 @@ module Gallifreyian
   class Configuration
     class << self
 
-      attr_accessor :layout, :main_language
+      attr_accessor :layout, :main_language, :helpers
 
       def configure(&block)
         yield self
+      end
+
+      def helpers
+        @helpers || []
       end
 
     end
