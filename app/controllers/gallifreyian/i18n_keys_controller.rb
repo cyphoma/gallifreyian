@@ -79,7 +79,7 @@ module Gallifreyian
     end
 
     def search_params
-      if search_params
+      if @search_params
         @search_params
       else
         @search_params = params[:search] || {}
