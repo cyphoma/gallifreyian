@@ -270,6 +270,11 @@ describe Gallifreyian::I18nKey do
           results.size.should eq 2
         end
 
+        it "should have a total of 2 results with a empty done" do
+          results = Gallifreyian::I18nKey.search(done: "").results
+          results.size.should eq 2
+        end
+
         it 'should find completed translation' do
           results = Gallifreyian::I18nKey.search(done: true).results
           results.size.should eq 1

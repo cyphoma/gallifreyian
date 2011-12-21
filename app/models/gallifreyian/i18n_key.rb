@@ -11,7 +11,7 @@ class Gallifreyian::I18nKey
   #
   field :key,         type: String
   field :section,     type: String
-  field :state,       type: Symbol
+  field :state,       type: Symbol, default: :validation_pending
   field :done,        type: Boolean
 
   # Translated fields
@@ -45,7 +45,7 @@ class Gallifreyian::I18nKey
     indexes :key,               type: 'string', analyzer: 'key_path', boost: 2
     indexes :section,           type: 'string', index: 'not_analyzed'
     indexes :state,             type: 'string', index: 'not_analyzed'
-    indexes :state,             type: 'boolean', index: 'not_analyzed'
+    indexes :done,              type: 'boolean', index: 'not_analyzed'
     indexes :translations,      type: 'nested', include_in_parent: true do
       indexes :language,          type: 'string', index: 'not_analyzed'
       indexes :datum,             type: 'string', boost: 100
@@ -75,7 +75,7 @@ class Gallifreyian::I18nKey
 
         filter :term,  section: params[:section]                     if params[:section].present?
         filter :term,  state: params[:state]                         if params[:state].present?
-        filter :term,  done: params[:done]                           unless params[:done].nil?
+        filter :term,  done: params[:done]                           if params[:done].is_a? Boolean
         filter :terms, 'translations.language' => params[:languages] if params[:languages].present?
 
         facet 'sections' do
