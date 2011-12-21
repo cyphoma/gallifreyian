@@ -1,13 +1,24 @@
 <%= simple_form_for :search, :method => :get, :url => root_path do |form| %>
 <fieldset>
-  <h2>t('search.quick')</h2>
-  <%= form.input :query %>
+  <h2><%= t('gallifreyian.search.quick') %></h2>
+  <%= form.input :query, required: false %>
   <%= form.button :submit, t('search.button') %>
 </fieldset>
 
 <fieldset>
-  <h2>t('search.select_languages')</h2>
+  <h2><%= t('gallifreyian.search.select_languages') %></h2>
   <%= form.input :languages, :collection => I18n.available_locales, :as => :check_boxes, :required => false %>
+</fieldset>
+
+<fieldset>
+  <h2><%= t('gallifreyian.search.sections.title') %></h2>
+    <% sections.each do |section| %>
+      <p>
+        <%= link_to t("gallifreyian.search.sections.#{section['term']}"), '#', 'data-term' => section['term'] %>
+        (<%= section['count'] %>)
+        <%= form.input :section, :as => :hidden %>
+      </p>
+    <% end %>
 </fieldset>
 
 <% end %>

@@ -1,6 +1,6 @@
 <div id='i18n_keys'>
   <div>
-    <%= render 'search' %>
+    <%= render 'search', sections: @i18n_keys.facets['sections']['terms'] %>
     <ul>
       <% @i18n_keys.each do |i18n_key| %>
         <li>
