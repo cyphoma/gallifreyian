@@ -130,6 +130,35 @@ describe Gallifreyian::I18nKey do
           results.size.should eq 1
         end
       end
+
+      context 'search in key and body' do
+        let(:i18n) do
+          i = Gallifreyian::I18nKey.new(
+            key: "pim.pam.poum"
+          )
+          i.translations << Gallifreyian::Translation::I18nKey.new(
+            language: :fr,
+            datum: "Le capitaine et les deux garnements"
+          )
+          i.save
+          Tire.index(Gallifreyian::I18nKey.index_name) do
+            refresh
+          end
+          i
+        end
+        it 'should find by key' do
+          pending "Garbage in the index?"
+          %w{ pim pam poum p*m }.each do |q|
+            results = Gallifreyian::I18nKey.search(query: q).results
+            p q, results.size
+            results.size.should eq 1
+          end
+        end
+        it 'should find by datum' do
+          results = Gallifreyian::I18nKey.search(query: 'capitaine').results
+          results.size.should eq 1
+        end
+      end
     end
 
     describe 'search with filters' do

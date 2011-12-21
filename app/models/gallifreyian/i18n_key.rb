@@ -31,10 +31,18 @@ class Gallifreyian::I18nKey
   # Tire mapping
   #
   index_name Gallifreyian::Configuration.index_name || 'gallifreyian'
+  settings analysis: {
+    analyzer: {
+      key_path: {
+        type: 'pattern',
+        pattern: '\.'
+      }
+    }
+  }
 
   mapping do
     indexes :_id,               type: 'string', index: 'not_analyzed'
-    indexes :key,               type: 'string'
+    indexes :key,               type: 'string', analyzer: 'key_path', boost: 2
     indexes :section,           type: 'string', index: 'not_analyzed'
     indexes :state,             type: 'string', index: 'not_analyzed'
     indexes :state,             type: 'boolean', index: 'not_analyzed'
