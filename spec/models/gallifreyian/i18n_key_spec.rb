@@ -117,16 +117,19 @@ describe Gallifreyian::I18nKey do
       end
 
       context 'bad pattern is given' do
+        let(:search_params) {Gallifreyian::Search.new(query: 'bogus')}
+
         it 'should not have results' do
-          results = Gallifreyian::I18nKey.search(query: 'bogus').results
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.should_not be_any
         end
       end
 
       context 'good pattern is given' do
+        let(:search_params) {Gallifreyian::Search.new(query: i18n.translations.first.datum.split.first)}
+
         it 'should have results' do
-          pattern = i18n.translations.first.datum.split.first
-          results = Gallifreyian::I18nKey.search(query: pattern).results
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
       end
@@ -155,7 +158,8 @@ describe Gallifreyian::I18nKey do
           end
         end
         it 'should find by datum' do
-          results = Gallifreyian::I18nKey.search(query: 'capitaine').results
+          search_params = Gallifreyian::Search.new(query: 'capitaine')
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
       end
@@ -164,6 +168,8 @@ describe Gallifreyian::I18nKey do
     describe 'search with filters' do
 
       context 'with a filter on section' do
+        let(:search_params) {Gallifreyian::Search.new(section: 'test')}
+
         before do
           i18n.key = 'test.plop'
           i18n.save
@@ -172,12 +178,12 @@ describe Gallifreyian::I18nKey do
         end
 
         it 'should have one result' do
-          results = Gallifreyian::I18nKey.search(section: 'test').results
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it 'should have a facets on section' do
-          facets = Gallifreyian::I18nKey.search(section: 'test').facets
+          facets = Gallifreyian::I18nKey.search(search_params).facets
           facets['sections']['terms'].should eq [{"term"=>"test", "count"=>1}, {"term"=>"foo", "count"=>1}]
         end
 
@@ -200,24 +206,28 @@ describe Gallifreyian::I18nKey do
         end
 
         it 'should find based on language (french)' do
-          results = Gallifreyian::I18nKey.search(languages: ['fr']).results
+          search_params = Gallifreyian::Search.new(languages: ['fr'])
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it 'should find based on language (english)' do
-          results = Gallifreyian::I18nKey.search(languages: ['en']).results
+          search_params = Gallifreyian::Search.new(languages: ['en'])
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it "should have a total of 2 results" do
-          results = Gallifreyian::I18nKey.search(languages: ['fr', 'en']).results
+          search_params = Gallifreyian::Search.new(languages: ['fr', 'en'])
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 2
         end
 
         it 'should wrapping up' do
-          results = Gallifreyian::I18nKey.search({
+          search_params = Gallifreyian::Search.new(
             query: 'veut', section: 'foo', languages: ['en'], state: 'validation_pending'
-          }).results
+          )
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
       end
@@ -240,12 +250,14 @@ describe Gallifreyian::I18nKey do
         end
 
         it 'should find based on valid state' do
-          results = Gallifreyian::I18nKey.search(state: 'valid').results
+          search_params = Gallifreyian::Search.new(state: 'valid')
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it 'should find based on validation_pending' do
-          results = Gallifreyian::I18nKey.search(state: 'validation_pending').results
+          search_params = Gallifreyian::Search.new(state: 'validation_pending')
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
@@ -271,17 +283,32 @@ describe Gallifreyian::I18nKey do
         end
 
         it "should have a total of 2 results with a empty done" do
-          results = Gallifreyian::I18nKey.search(done: "").results
+          search_params = Gallifreyian::Search.new(done: '')
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 2
         end
 
         it 'should find completed translation' do
-          results = Gallifreyian::I18nKey.search(done: true).results
+          search_params = Gallifreyian::Search.new(done: true)
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it 'should find uncompleted translation' do
-          results = Gallifreyian::I18nKey.search(done: false).results
+          search_params = Gallifreyian::Search.new(done: false)
+          results = Gallifreyian::I18nKey.search(search_params).results
+          results.size.should eq 1
+        end
+
+        it 'should find completed translation, as string' do
+          search_params = Gallifreyian::Search.new(done: 'true')
+          results = Gallifreyian::I18nKey.search(search_params).results
+          results.size.should eq 1
+        end
+
+        it 'should find uncompleted translation, as string' do
+          search_params = Gallifreyian::Search.new(done: 'false')
+          results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 

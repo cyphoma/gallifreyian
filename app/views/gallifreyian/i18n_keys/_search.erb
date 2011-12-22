@@ -1,4 +1,4 @@
-<%= simple_form_for :search, :method => :get, :url => root_path do |form| %>
+<%= simple_form_for search_params, :method => :get, :url => root_path do |form| %>
 <fieldset>
   <h2><%= t('gallifreyian.search.quick') %></h2>
   <%= form.input :query, required: false %>
@@ -30,8 +30,8 @@
       }, :required => false
   %>
   <%= form.input :done,
-      :collection => [[t('gallifreyian.search.incomplete'), :incomplete],
-                      [t('gallifreyian.search.complete'), :done]],
+      :collection => [[t('gallifreyian.search.incomplete'), 'true'],
+                      [t('gallifreyian.search.complete'), 'false']],
       :required => false
   %>
 </fieldset>

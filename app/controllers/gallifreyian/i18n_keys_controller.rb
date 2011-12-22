@@ -2,7 +2,7 @@
 module Gallifreyian
   class I18nKeysController < ApplicationController
     respond_to :html, :js, :json
-    helper_method :languages, :new_i18n_key
+    helper_method :languages, :new_i18n_key, :search_params
 
     # GET /i18n_keys
     # GET /i18n_keys.js
@@ -84,10 +84,8 @@ module Gallifreyian
       else
         @search_params = params[:search] || {}
 
-        # Clean inputs
-        @search_params[:done] = ((@search_params[:done] == 'done') ? true : false) if @search_params[:done].present?
-        @search_params[:languages].reject!(&:blank?) if @search_params[:languages]
-        @search_params.merge!(params.slice('page', 'per_page'))
+        # Pagination params
+        @search_params = Gallifreyian::Search.new(@search_params.merge!(params.slice('page', 'per_page')))
       end
     end
   end
