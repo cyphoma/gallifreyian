@@ -1,11 +1,13 @@
 <%= simple_form_for i18n_key do |form| %>
-  <%= form.input :key %>
-  <%= form.association :translations do |translation| %>
-    <h2><%= translation.object.try(:language) %></h2>
-    <%- unless translation.object.try(:new_record?) %>
-      <%= translation.input :id, as: :hidden %>
+  <fieldset>
+    <%= form.input :key %>
+    <%= form.association :translations do |translation| %>
+      <h2><%= translation.object.try(:language) %></h2>
+      <%- unless translation.object.try(:new_record?) %>
+        <%= translation.input :id, as: :hidden %>
+      <% end %>
+      <%= translation.input :datum, as: :text, input_html: {rows: 2, cols: 100} %>
     <% end %>
-    <%= translation.input :datum, as: :text, input_html: {rows: 2, cols: 100} %>
-  <% end %>
-  <%= form.button :submit %>
+    <%= form.button :submit %>
+  <fieldset>
 <% end %>
