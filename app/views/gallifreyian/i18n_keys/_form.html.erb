@@ -5,8 +5,9 @@
       <%- unless translation.object.try(:new_record?) %>
         <%= translation.input :id, as: :hidden %>
       <% end %>
-      <%= translation.input :datum, as: :text, input_html: {rows: 2, cols: 100},
-        label: t("gallifreyian.#{translation.object.try(:language)}") %>
+      <%= translation.input :datum, input_html: {rows: 2, cols: 100},
+        label: t("gallifreyian.#{translation.object.try(:language)}"),
+        as: hidden_unless_select(translation.object.try(:language)) %>
     <% end %>
     <%= form.button :submit %>
   </fieldset>
