@@ -1,4 +1,4 @@
-<%= simple_form_for i18n_key do |form| %>
+<%= simple_form_for i18n_key, html: {:"data-remote" => true} do |form| %>
   <fieldset>
     <%= form.input :key %>
     <%= form.association :translations do |translation| %>
