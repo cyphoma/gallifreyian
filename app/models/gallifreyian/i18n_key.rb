@@ -29,7 +29,7 @@ class Gallifreyian::I18nKey
   # Callbacks
   #
   before_save :set_state, :sanitize, :set_done, :set_section
-  after_save :to_i18n, :missing_languages
+  after_save :to_i18n, :missing_languages, :js_locales
 
   # Tire mapping
   #
@@ -91,6 +91,14 @@ class Gallifreyian::I18nKey
   end
 
   private
+
+  # Update js locales
+  #
+  def js_locales
+    if Gallifreyian::Configuration.js_locales && self.section == 'js'
+      Gallifreyian::JsonExporter.run
+    end
+  end
 
   def set_state
     translation = self.translations.where(language: Gallifreyian::Configuration.main_language).one

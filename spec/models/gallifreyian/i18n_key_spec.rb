@@ -99,6 +99,20 @@ describe Gallifreyian::I18nKey do
         i18n.done.should be_false
       end
     end
+
+    describe 'js' do
+      it 'should call JsonExporter when a js key is save' do
+        Gallifreyian::JsonExporter.should_receive(:run).and_return(true)
+        i18n.key = 'js.test'
+        i18n.save
+      end
+
+      it 'should not call JsonExporter when a non js key is save' do
+        Gallifreyian::JsonExporter.should_not_receive(:run).and_return(true)
+        i18n.key = 'test'
+        i18n.save
+      end
+    end
   end
 
 
