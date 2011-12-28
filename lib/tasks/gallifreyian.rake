@@ -12,4 +12,9 @@ namespace :gallifreyian do
   task :export => :environment do
     Gallifreyian::Exporter.run
   end
+
+  desc "Export JSON locales files"
+  task :json_export => :environment do
+    Gallifreyian::JsonExporter.run
+  end
 end
