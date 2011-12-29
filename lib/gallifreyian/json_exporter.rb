@@ -16,7 +16,7 @@ module Gallifreyian
       @locales.each do |locale|
         File.open(dump_dir.join("#{locale}.json"), 'w' ) do |out|
           out.write(translations[locale][:js].to_json)
-        end
+        end if translations[locale]
       end
     end
 
