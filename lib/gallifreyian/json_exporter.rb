@@ -12,9 +12,10 @@ module Gallifreyian
 
     def run
       raise "#{dump_dir} does not exist." unless File.exists?(dump_dir)
+      translations = Gallifreyian::Store.all_translations
       @locales.each do |locale|
         File.open(dump_dir.join("#{locale}.json"), 'w' ) do |out|
-          out.write(Gallifreyian::Store.all_translations[locale][:js].to_json)
+          out.write(translations[locale][:js].to_json)
         end
       end
     end
