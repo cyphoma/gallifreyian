@@ -17,7 +17,8 @@ module Gallifreyian
           unless datum.is_a? Hash
             start = language.length + 1
             i18n_key = Gallifreyian::I18nKey.find_or_initialize_by(key: key.slice(start..-1))
-            i18n_key.translations << Gallifreyian::Translation::I18nKey.new(datum: datum, language: language)
+            i18n_key.translations.find_or_initialize_by(language: language)
+            i18n_key.translations.where(language: language).one.datum = datum
             if i18n_key.save
               count += 1
             else

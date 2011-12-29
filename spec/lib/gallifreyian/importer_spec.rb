@@ -24,6 +24,6 @@ describe Gallifreyian::Importer do
     Gallifreyian::I18nKey.where(key: 'hello').
       one.translations.where(language: :es).one.datum.should eq 'Hola Mundo'
     Gallifreyian::I18nKey.where(key: 'hello').
-      one.translations.where(language: :en).one.datum.should eq 'Hello World'
+      one.translations.where(language: :en).one.datum.should eq 'Hello world'
   end
 end
