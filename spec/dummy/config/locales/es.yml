@@ -5,6 +5,7 @@
 # Corrected by Eloy Serra Labán: http://goo.gl/i9Kts, /nQ928, /XfKaX
 
 "es":
+  hello: "Hola Mundo"
   date:
     formats:
       default: "%d/%m/%Y"
