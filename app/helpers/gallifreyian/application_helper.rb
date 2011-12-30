@@ -6,9 +6,9 @@ module Gallifreyian
     end
 
     def hidden_unless_select(language)
-      if params[:search] && params[:search][:languages] && params[:search][:languages].include?(language.to_s)
-        type = :text
-      elsif params[:search] && params[:search][:languages] && params[:search][:languages].any?
+      if searched_languages.reject(&:blank?).include?(language.to_s)
+        :text
+      elsif searched_languages.any?
         :hidden
       else
         :text

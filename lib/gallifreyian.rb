@@ -9,6 +9,7 @@ require 'mongoid'
 require 'kaminari'
 require 'simple_form'
 require 'tire'
+require 'addressable/uri'
 
 Dir["#{File.dirname(__FILE__)}/gallifreyian/**/*.rb"].each { |f| require f }
 

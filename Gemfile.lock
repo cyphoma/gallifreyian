@@ -8,6 +8,7 @@ PATH
   remote: .
   specs:
     gallifreyian (0.0.1)
+      addressable
       bson_ext
       kaminari
       mongoid
@@ -49,6 +50,7 @@ GEM
       activesupport (= 3.1.3)
     activesupport (3.1.3)
       multi_json (~> 1.0)
+    addressable (2.2.6)
     arel (2.2.1)
     bson (1.5.2)
     bson_ext (1.5.2)
@@ -66,8 +68,10 @@ GEM
     hike (1.2.1)
     i18n (0.6.0)
     json (1.6.3)
-    kaminari (0.12.4)
-      rails (>= 3.0.0)
+    kaminari (0.13.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      railties (>= 3.0.0)
     mail (2.3.0)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)

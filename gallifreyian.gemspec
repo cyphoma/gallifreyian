@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency "redis-namespace"
   s.add_dependency "simple_form"
   s.add_dependency 'tire'
+  s.add_dependency 'addressable'
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency 'factory_girl_rails'

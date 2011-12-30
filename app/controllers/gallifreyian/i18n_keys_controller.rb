@@ -2,7 +2,7 @@
 module Gallifreyian
   class I18nKeysController < ApplicationController
     respond_to :html, :js, :json
-    helper_method :languages, :new_i18n_key, :search_params
+    helper_method :searched_languages, :new_i18n_key, :search_params
 
     # GET /i18n_keys
     # GET /i18n_keys.js
@@ -58,8 +58,19 @@ module Gallifreyian
 
     protected
 
-    def languages
-      params[:languages] || I18n.available_locales
+    def searched_languages
+      search_params = params[:search] || {}
+      (search_params[:languages] || referer_languages || I18n.available_locales).reject(&:blank?)
+    end
+
+    def referer_languages
+      query = ::Addressable::URI.parse(request.referer)
+      if query
+        search = query.query_values['search'] || {}
+        search['languages'] || []
+      else
+        []
+      end
     end
 
     def new_i18n_key
