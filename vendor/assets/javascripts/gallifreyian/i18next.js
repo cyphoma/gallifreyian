@@ -55,7 +55,7 @@
         }
 
         // else load them
-        sync.load(languages, o.ns, o.useLocalStorage, o.dynamicLoad, function(err, store) {
+        sync.load($.unique(languages), o.ns, o.useLocalStorage, o.dynamicLoad, function(err, store) {
             resStore = store;
             if (o.setJqueryExt) addJqueryFunct();
             if (cb) cb(translate);
@@ -70,7 +70,7 @@
         // $.t shortcut
         $.t = $.t || translate;
 
-        var parse = function(ele, key) {
+        function parse(ele, key) {
             if (key.length === 0) return;
 
             var attr = 'text';
@@ -90,7 +90,7 @@
             } else {
                 ele.attr(attr, $.t(key, { defaultValue: ele.attr(attr) }));
             }
-        };
+        }
 
         // fn
         $.fn.i18n = function (options) {
@@ -137,14 +137,6 @@
         return translated;
     }
 
-    function detectLanguage() {
-        if (navigator) {
-            return (navigator.language) ? navigator.language : navigator.userLanguage;
-        } else {
-            return o.fallbackLng;
-        }
-    }
-
     function needsPlural(options){
         return (options.count && typeof options.count != 'string' && options.count > 1);
     }
@@ -176,6 +168,8 @@
             delete optionsSansCount.count;
             optionsSansCount.defaultValue = o.pluralNotFound;
             var pluralKey = key + o.pluralSuffix;
+            var pluralExtension = pluralExtensions.get(currentLng, options.count);
+            if (pluralExtension !== 'other') { pluralKey = pluralKey + '_' + pluralExtension; }
             var translated = translate(pluralKey,optionsSansCount);
             if (translated != o.pluralNotFound) {
                 return applyReplacement(translated,{count:options.count});//apply replacement for count only
@@ -207,6 +201,14 @@
         }
 
         return (found) ? found : notfound;
+    }
+
+    function detectLanguage() {
+        if (navigator) {
+            return (navigator.language) ? navigator.language : navigator.userLanguage;
+        } else {
+            return o.fallbackLng;
+        }
     }
 
     var sync = {
@@ -334,6 +336,39 @@
         }
     };
 
+    // definition http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html
+    var pluralExtensions = {
+        
+        rules: {
+            'sl': function (n) {
+                return n % 100 === 1 ? 'one' : n % 100 === 2 ? 'two' : n % 100 === 3 || n % 100 === 4 ? 'few' : 'other';
+            }
+        },
+
+        addRule: function(lng, fc) {
+            pluralExtensions.rules[lng] = fc;    
+        },
+
+        get: function(lng, count) {
+            var parts = lng.split('-');
+
+            function getResult(l, c) {
+                if (pluralExtensions.rules[l]) {
+                    return pluralExtensions.rules[l](c);
+                } else {
+                    return c === 1 ? 'one' : 'other';
+                }
+            }
+                        
+            if (parts.length === 2) {
+                return getResult(parts[0], count);
+            } else {
+                return getResult(lng, count);
+            }
+        }
+
+    };
+
     function lng() {
         return currentLng;
     }
@@ -344,6 +379,8 @@
         t: translate,
         translate: translate,
         detectLanguage: detectLanguage,
+        pluralExtensions: pluralExtensions,
+        sync: sync,
         lng: lng
     };
 })(jQuery);

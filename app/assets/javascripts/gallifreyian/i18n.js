@@ -1,2 +1,2 @@
-//= require gallifreyian/i18next-1.0
+//= require gallifreyian/i18next
 //= require gallifreyian/init
