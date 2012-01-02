@@ -65,7 +65,7 @@ module Gallifreyian
 
     def referer_languages
       query = ::Addressable::URI.parse(request.referer)
-      if query
+      if query && query.query_values
         search = query.query_values['search'] || {}
         search['languages'] || []
       else
