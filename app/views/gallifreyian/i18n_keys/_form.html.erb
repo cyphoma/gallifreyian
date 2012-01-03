@@ -1,14 +1,25 @@
 <%= simple_form_for i18n_key, html: {:"data-remote" => true} do |form| %>
   <fieldset>
     <%= form.input :key %>
-    <%= form.association :translations do |translation| %>
-      <%- unless translation.object.try(:new_record?) %>
-        <%= translation.input :id, as: :hidden %>
+    <%- i18n_key.translations.each_with_index do |translation, index| %>
+      <%- unless translation.new_record? %>
+        <div class="clearfix hidden">
+          <%= hidden_field_tag "i18n_key[translations_attributes][#{index}][id]", translation.id %>
+        </div>
       <% end %>
-      <%= translation.input :datum, input_html: {rows: 2, cols: 100},
-        label: t("gallifreyian.#{translation.object.try(:language)}"),
-        as: hidden_unless_select(translation.object.try(:language)) %>
-    <% end %>
+      <%- unless hide_language?(translation.language) %>
+        <div class='clearfix text optional'>
+          <%= label_tag "i18n_key[translations_attributes][#{index}][datum]", t("gallifreyian.#{translation.language}") %>
+          <div class="input">
+            <%= text_area_tag "i18n_key[translations_attributes][#{index}][datum]", translation.datum, rows: 2, cols: 100 %>
+          </div>
+        </div>
+      <%- else %>
+        <div class="clearfix hidden">
+          <%= hidden_field_tag "i18n_key[translations_attributes][#{index}][datum]", translation.datum %>
+        </div>
+      <%- end %>
+    <%- end %>
     <%= form.button :submit %>
   </fieldset>
 <% end %>

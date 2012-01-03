@@ -5,13 +5,13 @@ module Gallifreyian
       translation.siblings.by_language(language).one || Gallifreyian::I18nKey.new(key: translation.key, language: language)
     end
 
-    def hidden_unless_select(language)
+    def hide_language?(language)
       if searched_languages.reject(&:blank?).include?(language.to_s)
-        :text
+        false
       elsif searched_languages.any?
-        :hidden
+        true
       else
-        :text
+        false
       end
     end
   end
