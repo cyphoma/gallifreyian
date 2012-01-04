@@ -1,29 +1,37 @@
 <%= simple_form_for search_params, :method => :get, :url => root_path do |form| %>
-<fieldset>
-  <h2><%= t('gallifreyian.search.quick') %></h2>
-  <%= form.input :query, required: false, label: false %>
-  <h2><%= t('gallifreyian.search.states.title') %></h2>
-  <%= form.input :state,
-      :collection => Gallifreyian::I18nKey::STATES.map { |state|
-        [t("gallifreyian.search.states.state.#{state}"), state]
-      }, :required => false
-  %>
-  <%= form.input :done,
-      :collection => [[t('gallifreyian.search.incomplete'), 'true'],
-                      [t('gallifreyian.search.complete'), 'false']],
-      :required => false
-  %>
-  <h2><%= t('gallifreyian.search.select_languages') %></h2>
-  <%= form.input :languages, :collection => I18n.available_locales, as: :check_boxes, required: false, label: false %>
-  <h2><%= t('gallifreyian.search.sections.title') %></h2>
-    <% sections.each do |section| %>
-      <p>
-        <%= link_to t("gallifreyian.search.sections.#{section['term']}"), '#',
-            'data-term' => section['term'], 'class' => "i18n-section" %>
-        (<%= section['count'] %>)
-      </p>
-    <% end %>
-    <%= form.input :section, :as => :hidden %>
-  <%= form.button :submit, t('gallifreyian.search.button') %>
-</fieldset>
+  <fieldset>
+    <div class="quick-search">
+      <h2><%= t('gallifreyian.search.quick') %></h2>
+      <%= form.input :query, required: false, label: false %>
+    </div>
+    <div class="states-search">
+      <h2><%= t('gallifreyian.search.states.title') %></h2>
+      <%= form.input :state,
+          :collection => Gallifreyian::I18nKey::STATES.map { |state|
+            [t("gallifreyian.search.states.state.#{state}"), state]
+          }, :required => false
+      %>
+      <%= form.input :done,
+          :collection => [[t('gallifreyian.search.incomplete'), 'true'],
+                          [t('gallifreyian.search.complete'), 'false']],
+          :required => false
+      %>
+    </div>
+    <div class="languages-search">
+      <h2><%= t('gallifreyian.search.select_languages') %></h2>
+      <%= form.input :languages, :collection => I18n.available_locales, as: :check_boxes, required: false, label: false %>
+    </div>
+    <div class="sections-search">
+      <h2><%= t('gallifreyian.search.sections.title') %></h2>
+      <% sections.each do |section| %>
+        <p>
+          <%= link_to t("gallifreyian.search.sections.#{section['term']}"), '#',
+              'data-term' => section['term'], 'class' => "i18n-section" %>
+          (<%= section['count'] %>)
+        </p>
+      <% end %>
+      <%= form.input :section, :as => :hidden %>
+    </div>
+    <%= form.button :submit, t('gallifreyian.search.button') %>
+  </fieldset>
 <% end %>
