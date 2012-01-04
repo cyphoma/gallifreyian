@@ -1,7 +1,7 @@
 <div id='i18n_keys'>
   <div>
     <%= render 'search', sections: @i18n_keys.facets['sections']['terms'] %>
-    <h2><%= t('gallifreyian.new')%></h2>
+    <h2 class="gallifreyian new"><%= t('gallifreyian.new')%></h2>
     <%= render 'form', i18n_key: @i18n_key %>
     <ul>
       <% @i18n_keys.each do |i18n_key| %>
