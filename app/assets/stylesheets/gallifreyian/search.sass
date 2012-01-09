@@ -1,0 +1,61 @@
+@import "colors"
+
+#search
+  form
+    fieldset
+      .input
+        display: inline-block
+        &.patternLabel
+          label
+            display: none
+        label
+          display: inline-block
+          width: auto
+          &:after
+            content: " : "
+      select
+        width: 165px
+.i18n-section
+  &.selected
+    text-decoration: underline
+
+#i18n_keys
+  h2
+    margin: 5px 0
+    padding: 10px 10px 10px 10px
+    font-weight: bold
+    border: 1px outset $white
+    background-color: $pastel
+  form
+    fieldset
+      margin: 5px 0
+      padding: 10px 10px 10px 10px
+      border: 1px outset $white
+      background-color: $pastel
+    h2
+      margin: 10px 0
+      padding: 0
+      font-weight: bold
+      border: 0
+      background: none
+    .quick-search
+      float: left
+    .states-search
+      float: right
+    .languages-search
+      clear: both
+    input.button
+      float: right
+    .check_boxes
+      span
+        label
+          width: 50px
+  ul
+    li
+      ul
+        li:first-child
+          margin: 5px 0
+          padding: 10px 10px 10px 10px
+          font-weight: bold
+          border: 1px outset $white
+          background-color: $pastel

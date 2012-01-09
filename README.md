@@ -53,6 +53,14 @@ end
 I18n.backend = I18n::Backend::Chain.new(Gallifreyian::Store.backend, I18n.backend)
 ```
 
+## Assets for translation interface
+
+Require gallifreyian javascripts and stylesheets using the asset pipeline :
+
+``` ruby
+//= require gallifreyian/admin
+```
+
 ## TODO
 
   * test in a non-mongoid app
