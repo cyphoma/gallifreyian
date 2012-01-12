@@ -73,7 +73,9 @@ class Gallifreyian::I18nKey
 
 
       tire.search(:load => true) do
-        params.query.blank? ? query { all } : query { string params.query }
+        params.query.blank? ? query { all } : query do
+          string params.query, escape: true
+        end
 
         filter :term,  section: params.section                     if params.section.present?
         filter :term,  state: params.state                         if params.state.present?
