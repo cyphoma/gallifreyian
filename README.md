@@ -3,13 +3,13 @@
 Gallifreyian provides an i18n backend, and a web interface as a Rails engine.
 
 ## Dependencies
+  * ruby > 1.9.2
+  * rails > 3.1
   * mongo
   * redis
   * elastic-search
 
 ## Installation
-
-Ruby 1.9.2 is required.
 
 With bundler, add it to your `Gemfile`:
 
