@@ -37,4 +37,6 @@ Dummy::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  # Logs ES life
+  Tire.configure { logger Rails.root.join('log', 'elasticsearch.log'), :level => 'debug' }
 end

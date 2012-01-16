@@ -181,11 +181,20 @@ describe Gallifreyian::I18nKey do
           end
           i
         end
+
+        it 'should split the key' do
+          pending "ES should split key on ."
+          i18n
+          t =  Tire.index(Gallifreyian::I18nKey.index_name)
+          tokens = t.analyze("a.b.c", analyzer: 'key_path')
+          tokens.map{|token| token.token}.should eq %w{a b c}
+        end
+
         it 'should find by key' do
-          pending "Garbage in the index?"
-          %w{ pim pam poum p*m }.each do |q|
-            results = Gallifreyian::I18nKey.search(query: q).results
-            p q, results.size
+          #pending "Garbage in the index?"
+          %w{ pim pam poum }.each do |q|
+            params = Gallifreyian::Search.new(query: q)
+            results = Gallifreyian::I18nKey.search(params).results
             results.size.should eq 1
           end
         end
