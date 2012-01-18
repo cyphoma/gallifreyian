@@ -155,7 +155,6 @@ mkdir public/locales
 rake gallifreyian:json_export
 ```
 
-## Licence
--------
+## License
 
 This project rocks and uses MIT-LICENSE.
