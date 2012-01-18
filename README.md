@@ -76,6 +76,85 @@ Require gallifreyian javascripts and stylesheets using the asset pipeline :
 
 Docs about engine: http://edgeapi.rubyonrails.org/classes/Rails/Engine.html
 
+### Installing on a fresh rails 3.2 app
+
+TODO : merge in documentation
+
+ * Add gallifreyian to your gemfile (FIXME : Remove this step, must be a gallifreyian dependency) :
+
+``` ruby
+gem 'mongoid_translate', git: 'af83@git.af83.com:mongoid_translate.git'
+```
+
+ * Add gallifreyian to your gemfile (FIXME : Use published gem, not git repo) :
+
+``` ruby
+gem 'gallifreyian', git: 'git@github.com:AF83/gallifreyian.git'
+```
+
+ * Run generators for mongoid and gallifreyian config :
+
+``` bash
+rails generate mongoid:config
+rails generate gallifreyian:config
+```
+
+ * Import translations from config/locales/*.yml files
+
+``` bash
+rake gallifreyian:import
+```
+
+ * Mount Gallifreyian Engine in config/routes :
+
+``` ruby
+mount Gallifreyian::Engine => "/gallifreyian"
+```
+
+ * Require assets for gallifreyian admin interface :
+
+  * Javascripts, in app/assets/javascripts/application.js :
+
+``` ruby
+//= require gallifreyian/admin
+```
+
+  * Stylesheets, in app/assets/javascripts/application.css :
+
+``` ruby
+//= require gallifreyian/admin
+```
+
+ * To enable gallifreyian javascript locales (locales prefix is js:)
+
+  * include gallifreyian/i18next scripts in app/assets/javascripts/application.js :
+
+``` ruby
+//= require gallifreyian/i18next
+```
+
+ * Initialize i18next library, here is an example (see https://github.com/jamuhl/i18next for more informations) :
+
+``` javascript
+$(document).ready ->
+  $.i18n.init
+    lng: 'fr'
+    fallbackLng: 'en'
+    useLocalStorage: false
+    ns: { namespaces: ['translation'], defaultNs: 'translation'}
+    resGetPath: '/locales/__lng__.json'
+  , ->
+    // Boot your scripts using javascript locales in this callback.
+
+```
+
+  * Create json locales files :
+
+``` bash
+mkdir public/locales
+rake gallifreyian:json_export
+```
+
 ## Licence
 -------
 
