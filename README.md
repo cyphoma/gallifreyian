@@ -133,7 +133,7 @@ mount Gallifreyian::Engine => "/gallifreyian"
 //= require gallifreyian/i18next
 ```
 
- * Initialize i18next library, here is an example (see https://github.com/jamuhl/i18next for more informations) :
+  * Initialize i18next library, here is an example (see https://github.com/jamuhl/i18next for more informations) :
 
 ``` javascript
 $(document).ready ->
@@ -148,7 +148,7 @@ $(document).ready ->
 
 ```
 
-  * Create json locales files :
+   * Create json locales files :
 
 ``` bash
 mkdir public/locales
