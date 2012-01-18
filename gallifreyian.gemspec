@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["specs/**/*"]
   s.require_path = 'lib'
 
-  s.add_dependency "rails", "~> 3.1.3"
+  s.add_dependency "rails", "~> 3.1"
   s.add_dependency "mongoid"
   s.add_dependency "bson_ext"
   s.add_dependency "sanitize"
