@@ -70,7 +70,7 @@ class Gallifreyian::I18nKey
 
   # User I18n.available_locales to add missing translations on this I18nKey
   #
-  # @return [Array]     of Gallifreyian::I18nKey
+  # @return [Array]     of Gallifreyian::Translation::I18nKey
   #
   def available_translations
     missing_locales = I18n.available_locales - translations.map(&:language)
