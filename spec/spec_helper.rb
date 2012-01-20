@@ -34,6 +34,10 @@ RSpec.configure do |config|
   config.render_views
   config.include Mongoid::Matchers
 
+  # Check for focus spec
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+
   def clean_redis_namespace
     keys = $gallifreyian_store.keys('*')
     $gallifreyian_store.del(*keys) if keys.any?
