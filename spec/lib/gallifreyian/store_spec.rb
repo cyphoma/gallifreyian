@@ -23,7 +23,7 @@ describe Gallifreyian::Store do
     locales = Gallifreyian::Store.all_translations.keys
     locales.should_not be_empty
     [:en, :ja].each do |locale|
-      locales.include?(locale).should be_true
+      locales.should include(locale)
     end
   end
 end
