@@ -2,8 +2,14 @@
 require 'spec_helper'
 
 describe Gallifreyian::I18nKey do
-  let(:i18n) { Factory :i18n }
-  let(:translation) { Factory.build :translation }
+  let(:i18n) {
+    Factory :i18n,
+      translations: [translation]
+  }
+  let(:translation) {
+    Factory.build :translation,
+      language: Gallifreyian::Configuration.main_language
+  }
   let(:main_language) { Gallifreyian::Configuration.main_language }
 
   it 'should have a valid factory' do
@@ -42,13 +48,6 @@ describe Gallifreyian::I18nKey do
       i18n.key.should eq 'fr.cle.teste'
     end
 
-    it 'should create keys for missing languages' do
-      i18n = Factory.build :i18n
-      i18n.translations.size.should eq 1
-      i18n.save
-      i18n.reload.translations.size.should > 1
-    end
-
     describe 'sections' do
       it 'should persists a section based on key' do
         i18n.key = 'test.plop'
@@ -71,7 +70,7 @@ describe Gallifreyian::I18nKey do
 
     describe 'state' do
       it 'should set i18n as :validation_pending' do
-        translation = i18n.translations.where(language: main_language).one
+        translation = i18n.translations.first
         translation.datum = 'Nouvelle traduction'
         i18n.save
         i18n.state.should eq :validation_pending
@@ -276,11 +275,11 @@ describe Gallifreyian::I18nKey do
       context 'with a filter on state' do
         before do
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
-          i18n.translations.build(language: :fr, datum: 'On veut trouver.')
+          i18n.translations.build(language: main_language, datum: 'On veut trouver.')
           i18n.save
           i18n.save
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar.tardis')
-          i18n.translations.build(language: :en, datum: 'On veut trouver.')
+          i18n.translations.build(language: main_language, datum: 'On veut trouver.')
           i18n.save
           Gallifreyian::I18nKey.tire.index.refresh
         end

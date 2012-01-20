@@ -18,4 +18,12 @@ describe Gallifreyian::Store do
     I18n.t('plop.nested').should eq 'テストなんです'
     I18n.locale = :en
   end
+
+  it 'should return all locales with at least one translation' do
+    locales = Gallifreyian::Store.all_translations.keys
+    locales.should_not be_empty
+    [:en, :ja].each do |locale|
+      locales.include?(locale).should be_true
+    end
+  end
 end
