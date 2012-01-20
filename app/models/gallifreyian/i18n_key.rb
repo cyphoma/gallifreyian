@@ -68,6 +68,18 @@ class Gallifreyian::I18nKey
     }.to_json
   end
 
+  # User I18n.available_locales to add missing translations on this I18nKey
+  #
+  # @return [Array]     of Gallifreyian::I18nKey
+  #
+  def available_translations
+    missing_locales = I18n.available_locales - translations.map(&:language)
+    missing_locales.each do |locale|
+      self.translations << Gallifreyian::Translation::I18nKey.new(language: locale)
+    end
+    self.translations
+  end
+
   class << self
     def search(params = Gallifreyian::Search.new)
       size = params.per_page.present? ? params.per_page : 10

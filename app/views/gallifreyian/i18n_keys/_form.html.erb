@@ -1,7 +1,7 @@
 <%= simple_form_for i18n_key, html: {:"data-remote" => true} do |form| %>
   <fieldset>
     <%= form.input :key %>
-    <%- i18n_key.translations.each_with_index do |translation, index| %>
+    <%- i18n_key.available_translations.each_with_index do |translation, index| %>
       <%- unless translation.new_record? %>
         <div class="clearfix hidden">
           <%= hidden_field_tag "i18n_key[translations_attributes][#{index}][id]", translation.id %>

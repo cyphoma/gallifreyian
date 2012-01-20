@@ -356,4 +356,19 @@ describe Gallifreyian::I18nKey do
     end
 
   end
+
+  describe 'available_translations' do
+
+    it "should return a translation for each I18n.available_locales event if not present" do
+      i18n.translations.count.should eq 1
+      i18n.available_translations.each do |translation|
+        translation.should be_kind_of(Gallifreyian::Translation::I18nKey)
+      end
+      i18n_locales = i18n.available_translations.map(&:language)
+      I18n.available_locales.each do |locale|
+        i18n_locales.should include(locale)
+      end
+    end
+
+  end
 end
