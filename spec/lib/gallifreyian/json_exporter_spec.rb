@@ -23,12 +23,5 @@ describe Gallifreyian::JsonExporter do
     JSON.parse(content)['test1'].should eq "This is a test 1"
   end
 
-  it 'should have all locales' do
-    locales = Gallifreyian::Store.all_translations.keys
-    locales.should_not be_empty
-    I18n.available_locales.each do |locale|
-      locales.include?(locale).should be_true
-    end
-  end
 end
 

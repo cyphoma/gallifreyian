@@ -16,6 +16,7 @@ def mock_i18n_key(options = {}, stubs={})
   mock.stub!(:id).and_return(BSON::ObjectId.new.to_s)
   mock.stub!(:new_record?).and_return([false, true].sample)
   mock.stub!(:translations).and_return(mock_classified_translation)
+  mock.stub!(:available_translations).and_return(mock_classified_translation)
   Gallifreyian::I18nKey.stub!(:find).with(mock.id).and_return(mock)
   mock
 end

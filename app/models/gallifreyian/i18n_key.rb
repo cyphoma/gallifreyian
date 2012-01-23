@@ -29,7 +29,7 @@ class Gallifreyian::I18nKey
   # Callbacks
   #
   before_save :set_state, :sanitize, :set_done, :set_section
-  after_save :to_i18n, :missing_languages, :js_locales
+  after_save :to_i18n, :js_locales
 
   # Tire mapping
   #
@@ -66,6 +66,18 @@ class Gallifreyian::I18nKey
       state: self.state,
       done: self.done
     }.to_json
+  end
+
+  # User I18n.available_locales to add missing translations on this I18nKey
+  #
+  # @return [Array]     of Gallifreyian::Translation::I18nKey
+  #
+  def available_translations
+    missing_locales = I18n.available_locales - translations.map(&:language)
+    missing_locales.each do |locale|
+      self.translations << Gallifreyian::Translation::I18nKey.new(language: locale)
+    end
+    self.translations
   end
 
   class << self
@@ -144,15 +156,6 @@ class Gallifreyian::I18nKey
 
   def to_i18n
     Gallifreyian::Store.save(self)
-  end
-
-  def missing_languages
-    languages = I18n.available_locales - self.translations.map(&:language)
-    if languages.any?
-      languages.each do |lang|
-        self.translations.create(language: lang)
-      end
-    end
   end
 
 end
