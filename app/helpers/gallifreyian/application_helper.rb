@@ -14,5 +14,9 @@ module Gallifreyian
         false
       end
     end
+
+    def form_options(i18n_key)
+      i18n_key.new_record? ? {} : {html: {:"data-remote" => true}}
+    end
   end
 end
