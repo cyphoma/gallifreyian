@@ -2,11 +2,12 @@
   <fieldset>
     <%= form.input :key %>
     <%- i18n_key.available_translations.each_with_index do |translation, index| %>
-      <%- unless translation.new_record? %>
-        <div class="clearfix hidden">
+      <div class="clearfix hidden">
+        <%- unless translation.new_record? %>
           <%= hidden_field_tag "i18n_key[translations_attributes][#{index}][id]", translation.id %>
-        </div>
-      <% end %>
+        <% end %>
+        <%= hidden_field_tag "i18n_key[translations_attributes][#{index}][language]", translation.language %>
+      </div>
       <%- unless hide_language?(translation.language) %>
         <div class='clearfix text optional'>
           <%= label_tag "i18n_key[translations_attributes][#{index}][datum]", t("gallifreyian.#{translation.language}") %>
