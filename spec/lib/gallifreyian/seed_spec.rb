@@ -1,9 +1,9 @@
 # encoding: utf-8
 require 'spec_helper'
 
-describe Gallifreyian::Importer do
+describe Gallifreyian::Seed do
   before do
-    Gallifreyian::Importer.new([Rails.root.join('config', 'locales', 'es.yml'), Rails.root.join('config', 'locales', 'en.yml')]).run
+    Gallifreyian::Seed.new([Rails.root.join('config', 'locales', 'es.yml'), Rails.root.join('config', 'locales', 'en.yml')]).run
   end
 
   it 'should have results' do

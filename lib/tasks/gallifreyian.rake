@@ -2,10 +2,16 @@
 
 namespace :gallifreyian do
 
-  desc "Import YAML locales files"
+  desc "Import new keys from YAML locales files"
   task :import => :environment do
     paths = Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
     Gallifreyian::Importer.new(paths).run
+  end
+
+  desc "Destroy and seeds keys from YAML locales files"
+  task :seed => :environment do
+    paths = Dir[Rails.root.join('config', 'locales', '**', '*.yml')]
+    Gallifreyian::Seed.new(paths).run
   end
 
   desc "Export YAML locales files"
