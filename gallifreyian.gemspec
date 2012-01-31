@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary     = "I18N web ui and store."
   s.description = "I18N web ui and store."
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib,vendor}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["specs/**/*"]
   s.require_path = 'lib'
 
