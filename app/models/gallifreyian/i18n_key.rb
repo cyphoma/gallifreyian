@@ -14,7 +14,6 @@ class Gallifreyian::I18nKey
   #
   field :key,         type: String
   field :section,     type: String
-  field :state,       type: Symbol, default: :validation_pending
   field :done,        type: Boolean
 
   # Translated fields
@@ -56,6 +55,10 @@ class Gallifreyian::I18nKey
     end
   end
 
+  def state
+    self.translations.any? {|translation| translation.state == :validation_pending } ? :validation_pending : :valid
+  end
+
   def to_indexed_json
     {
       _id: self.id.to_s,
@@ -78,6 +81,17 @@ class Gallifreyian::I18nKey
       self.translations << Gallifreyian::Translation::I18nKey.new(language: locale)
     end
     self.translations
+  end
+
+  def validate
+    self.translations.each do |translation|
+      translation.state = :valid
+    end
+  end
+
+  def validate!
+    validate
+    save
   end
 
   class << self
@@ -118,12 +132,11 @@ class Gallifreyian::I18nKey
 
   def set_state
     translation = self.translations.where(language: Gallifreyian::Configuration.main_language).one
-    if translation
-      if translation.datum_changed?
-        self.state = :validation_pending
-      else
-        self.state = :valid
+    if translation && translation.datum_changed?
+      translations.each do |t|
+        t.state = :validation_pending
       end
+      translation.state = :valid
     end
   end
 

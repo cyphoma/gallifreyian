@@ -1,6 +1,10 @@
 <%= simple_form_for i18n_key, form_options(i18n_key) do |form| %>
   <fieldset>
-    <%= form.input :key %>
+    <%- if i18n_key.new_record? %>
+      <%= form.input :key %>
+    <%- else %>
+      <%= i18n_key.key %>
+    <%- end %>
     <%- i18n_key.available_translations.each_with_index do |translation, index| %>
       <div class="clearfix hidden">
         <%- unless translation.new_record? %>
@@ -14,6 +18,9 @@
           <div class="input">
             <%= text_area_tag "i18n_key[translations_attributes][#{index}][datum]", translation.datum, rows: 2, cols: 100 %>
           </div>
+          <%- if translation.datum.present? && translation.validation_pending? %>
+            <%= link_to t('gallifreyian.validate'), validate_i18n_key_translation_path(i18n_key.id.to_s, translation.id.to_s), method: :post, remote: true %>
+          <%- end %>
         </div>
       <%- else %>
         <div class="clearfix hidden">

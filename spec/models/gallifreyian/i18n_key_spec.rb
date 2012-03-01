@@ -32,6 +32,19 @@ describe Gallifreyian::I18nKey do
     end
   end
 
+  describe 'validate' do
+    it 'should validate a key' do
+      i18n.validate
+      i18n.state.should eq :valid
+    end
+
+    it 'should validate a key and save' do
+      i18n.validate!
+      i18n.state.should eq :valid
+      i18n.reload.state.should eq :valid
+    end
+  end
+
   describe 'callbacks' do
     it 'should sanitize datum' do
       i18n.translations.first.datum = '<b><a href="http://foo.com/">foo</a></b><img src="http://foo.com/bar.jpg">'
@@ -70,12 +83,14 @@ describe Gallifreyian::I18nKey do
 
     describe 'state' do
       it 'should set i18n as :validation_pending' do
+        i18n.translations << Gallifreyian::Translation::I18nKey.new(datum: 'test', language: :de)
+        i18n.save
         translation = i18n.translations.first
         translation.datum = 'Nouvelle traduction'
         i18n.save
         i18n.state.should eq :validation_pending
         i18n.save
-        i18n.state.should eq :valid
+        i18n.state.should_not eq :valid
       end
     end
 
@@ -236,6 +251,7 @@ describe Gallifreyian::I18nKey do
           i18n.save
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar.tardis')
           i18n.translations.build(language: :en, datum: 'On veut trouver.')
+          i18n.translations.build(language: :de, datum: 'On veut trouver.')
           i18n.save
           Gallifreyian::I18nKey.tire.index.refresh
         end
@@ -276,10 +292,12 @@ describe Gallifreyian::I18nKey do
         before do
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
           i18n.translations.build(language: main_language, datum: 'On veut trouver.')
+          i18n.translations.build(language: :de, datum: 'On veut trouver.')
           i18n.save
-          i18n.save
+          i18n.validate!
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar.tardis')
           i18n.translations.build(language: main_language, datum: 'On veut trouver.')
+          i18n.translations.build(language: :de, datum: 'On veut trouver.')
           i18n.save
           Gallifreyian::I18nKey.tire.index.refresh
         end
