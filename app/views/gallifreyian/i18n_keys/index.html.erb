@@ -7,7 +7,7 @@
       <% @i18n_keys.each do |i18n_key| %>
         <li>
           <ul>
-            <li><%= I18n.t(i18n_key.key) %></li>
+            <li><%= simple_format I18n.t(i18n_key.key) %></li>
             <li>
               <%= render 'form', i18n_key: i18n_key %>
             </li>
