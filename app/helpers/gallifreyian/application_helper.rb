@@ -5,8 +5,10 @@ module Gallifreyian
       translation.siblings.by_language(language).one || Gallifreyian::I18nKey.new(key: translation.key, language: language)
     end
 
-    def hide_language?(language)
-      if searched_languages.reject(&:blank?).include?(language.to_s)
+    def hide_language?(translation)
+      if translation.language == Gallifreyian::Configuration.main_language
+        false
+      elsif searched_languages.reject(&:blank?).include?(translation.language.to_s)
         false
       elsif searched_languages.any?
         true

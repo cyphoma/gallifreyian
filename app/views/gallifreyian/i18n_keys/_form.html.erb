@@ -12,7 +12,7 @@
         <% end %>
         <%= hidden_field_tag "i18n_key[translations_attributes][#{index}][language]", translation.language %>
       </div>
-      <%- unless hide_language?(translation.language) %>
+      <%- unless hide_language?(translation) %>
         <div class='clearfix text optional'>
           <%= label_tag "i18n_key[translations_attributes][#{index}][datum]", t("gallifreyian.#{translation.language}") %>
           <div class="input">

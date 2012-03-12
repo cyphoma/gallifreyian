@@ -56,7 +56,7 @@ class Gallifreyian::I18nKey
   end
 
   def state
-    self.translations.any? {|translation| translation.state == :validation_pending } ? :validation_pending : :valid
+    self.translations.reject {|t| t.datum.blank? }.any? {|translation| translation.state == :validation_pending } ? :validation_pending : :valid
   end
 
   def to_indexed_json
@@ -138,6 +138,7 @@ class Gallifreyian::I18nKey
       end
       translation.state = :valid
     end
+    translation.state = :valid
   end
 
   def set_section
