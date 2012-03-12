@@ -7,7 +7,7 @@ module Gallifreyian
 
       # Field
       #
-      field :state,       type: Symbol, default: :validation_pending
+      field :state,       type: Symbol, default: :valid
 
       # Validations
       #
