@@ -138,7 +138,7 @@ class Gallifreyian::I18nKey
       end
       translation.state = :valid
     end
-    translation.state = :valid
+    translation.state = :valid if translation
   end
 
   def set_section
