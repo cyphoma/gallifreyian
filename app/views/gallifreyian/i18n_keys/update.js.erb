@@ -1,5 +1,5 @@
 $("#edit_gallifreyian_i18n_key_<%= @i18n_key._id %>").
   replaceWith('<%= escape_javascript render(partial: "form", locals: {i18n_key: @i18n_key}) %>')
 <%- if @i18n_key.valid? %>
-    $("#edit_gallifreyian_i18n_key_<%= @i18n_key._id %> fieldset").append("<%= I18n.t('gallifreyian.success') %>")
+    $("#edit_gallifreyian_i18n_key_<%= @i18n_key._id %> fieldset").append("<p class='gallifreyian notification'><%= I18n.t('gallifreyian.success') %></p>")
 <%- end %>
