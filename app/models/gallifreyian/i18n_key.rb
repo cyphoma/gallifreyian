@@ -169,9 +169,9 @@ class Gallifreyian::I18nKey
 
   def sanitize
     self.translations.each do |translation|
-      translation.datum = Sanitize.clean(translation.datum)
+      translation.datum = CGI.unescapeHTML(Sanitize.clean(translation.datum))
     end
-    self.key = Sanitize.clean(self.key).parameterize('.')
+    self.key = CGI.unescapeHTML(Sanitize.clean(self.key).parameterize('.'))
   end
 
   def to_i18n
