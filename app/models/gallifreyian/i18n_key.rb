@@ -52,7 +52,7 @@ class Gallifreyian::I18nKey
     indexes :translations,      type: :nested, include_in_parent: true do
       indexes :language,          type: :string, index: :not_analyzed
       indexes :datum,             type: :string, boost: 100
-      indexes :pretty,            type: :strinf, boost: 50
+      indexes :pretty,            type: :string, boost: 50
     end
   end
 
