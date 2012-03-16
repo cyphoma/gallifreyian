@@ -52,6 +52,7 @@ class Gallifreyian::I18nKey
     indexes :translations,      type: :nested, include_in_parent: true do
       indexes :language,          type: :string, index: :not_analyzed
       indexes :datum,             type: :string, boost: 100
+      indexes :pretty,            type: :strinf, boost: 50
     end
   end
 
@@ -67,8 +68,13 @@ class Gallifreyian::I18nKey
       keys: self.key.split('.'), #FIXME elastic search should that with key
       section: self.section,
       state: self.state,
-      done: self.done
+      done: self.done,
+      pretty: self.pretty
     }.to_json
+  end
+
+  def pretty
+    self.key.split('.').last.humanize
   end
 
   # User I18n.available_locales to add missing translations on this I18nKey

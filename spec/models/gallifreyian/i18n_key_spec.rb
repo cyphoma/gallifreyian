@@ -162,6 +162,21 @@ describe Gallifreyian::I18nKey do
         end
       end
 
+      context 'prettyfy is given as pattern' do
+        let(:i18n) do
+          i18n = Gallifreyian::I18nKey.new(key: 'test.bar_foo')
+          i18n.translations.build(language: :en, datum: 'hello')
+          i18n.save
+          Gallifreyian::I18nKey.tire.index.refresh
+        end
+
+        it 'should have results' do
+          search_params = Gallifreyian::Search.new(query: "Bar foo")
+          results = Gallifreyian::I18nKey.search(search_params).results
+          results.size.should eq 1
+        end
+      end
+
       context 'good pattern with a special char is given' do
         let(:i18n) do
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
