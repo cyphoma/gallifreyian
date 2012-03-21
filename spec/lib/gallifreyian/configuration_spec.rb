@@ -33,12 +33,13 @@ describe Gallifreyian::Configuration do
     context 'empty option' do
       let!(:configuration) {
         Gallifreyian::Configuration.configure do |config|
-        config.available_locales = []
+          config.available_locales = []
         end
       }
 
       it 'should return I18n available_locales' do
         Gallifreyian::Configuration.available_locales.should_not be_blank
+        Gallifreyian::Configuration.available_locales.should eq(I18n.available_locales)
       end
     end
 
