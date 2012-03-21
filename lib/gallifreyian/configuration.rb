@@ -6,6 +6,7 @@ module Gallifreyian
 
       attr_accessor :layout, :main_language, :helpers, :index_name,
         :js_locales
+      attr_writer :available_locales
 
       def configure(&block)
         yield self
@@ -13,6 +14,11 @@ module Gallifreyian
 
       def helpers
         @helpers || []
+      end
+
+      def available_locales
+        available_locales = @available_locales.present? ? @available_locales : I18n.available_locales
+        Array(available_locales)
       end
 
     end

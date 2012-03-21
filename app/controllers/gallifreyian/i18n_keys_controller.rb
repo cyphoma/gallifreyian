@@ -58,6 +58,25 @@ module Gallifreyian
 
     protected
 
+    def refresh_index
+      Gallifreyian::I18nKey.tire.index.refresh
+    end
+
+    def searched_languages
+      search_params = params[:search] || {}
+      (search_params[:languages] || referer_languages || Gallifreyian::Configuration.available_locales).reject(&:blank?)
+    end
+
+    def referer_languages
+      query = ::Addressable::URI.parse(request.referer)
+      if query && query.query_values
+        search = query.query_values['search'] || {}
+        search['languages'] || []
+      else
+        []
+      end
+    end
+
     def new_i18n_key
       @i18n_key ||=
         i18n_key = Gallifreyian::I18nKey.new

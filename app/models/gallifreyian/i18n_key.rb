@@ -87,7 +87,7 @@ class Gallifreyian::I18nKey
   # @return [Array]     of Gallifreyian::Translation::I18nKey
   #
   def available_translations
-    missing_locales = I18n.available_locales - translations.map(&:language)
+    missing_locales = Gallifreyian::Configuration.available_locales - translations.map(&:language)
     missing_locales.each do |locale|
       self.translations << Gallifreyian::Translation::I18nKey.new(language: locale)
     end

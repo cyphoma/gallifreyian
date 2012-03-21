@@ -405,7 +405,7 @@ describe Gallifreyian::I18nKey do
         translation.should be_kind_of(Gallifreyian::Translation::I18nKey)
       end
       i18n_locales = i18n.available_translations.map(&:language)
-      I18n.available_locales.each do |locale|
+      Gallifreyian::Configuration.available_locales.each do |locale|
         i18n_locales.should include(locale)
       end
     end

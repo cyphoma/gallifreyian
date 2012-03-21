@@ -6,7 +6,7 @@ module Gallifreyian
 
     delegate :dump_dir, to: "self.class"
 
-    def initialize(locales = I18n.available_locales)
+    def initialize(locales = Gallifreyian::Configuration.available_locales)
       @locales = locales
     end
 

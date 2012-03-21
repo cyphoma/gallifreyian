@@ -19,7 +19,9 @@
     </div>
     <div class="languages-search">
       <h2><%= t('gallifreyian.search.select_languages') %></h2>
-      <%= form.input :languages, :collection => I18n.available_locales, as: :check_boxes, required: false, label: false %>
+      <%= form.input :languages,
+        collection: Gallifreyian::Configuration.available_locales,
+        as: :check_boxes, required: false, label: false %>
     </div>
     <div class="sections-search">
       <h2><%= t('gallifreyian.search.sections.title') %></h2>
