@@ -49,6 +49,8 @@ class Gallifreyian::I18nKey
     indexes :section,           type: :string, index: :not_analyzed
     indexes :state,             type: :string, index: :not_analyzed
     indexes :done,              type: :boolean, index: :not_analyzed
+    indexes :validation_pending_languages,  type: :string,  index_name: :validation_pending_language, index: :not_analyzed
+
     indexes :translations,      type: :nested, include_in_parent: true do
       indexes :language,          type: :string, index: :not_analyzed
       indexes :datum,             type: :string, boost: 100
@@ -69,7 +71,8 @@ class Gallifreyian::I18nKey
       section: self.section,
       state: self.state,
       done: self.done,
-      pretty: self.pretty
+      pretty: self.pretty,
+      validation_pending_languages: self.validation_pending_languages
     }.to_json
   end
 
@@ -95,6 +98,10 @@ class Gallifreyian::I18nKey
     end
   end
 
+  def validation_pending_languages
+    translations.where(state: :validation_pending).all.map(&:language)
+  end
+
   def validate!
     validate
     save
@@ -115,6 +122,7 @@ class Gallifreyian::I18nKey
         filter :term,  state: params.state                         if params.state.present?
         filter :term,  done: params.done                           if params.done.is_a? Boolean
         filter :terms, 'translations.language' => params.languages if params.languages.present?
+        filter :terms, validation_pending_languages: params.validation_pending_languages if params.validation_pending_languages.present?
 
         facet 'sections' do
           terms :section, global: true

@@ -43,6 +43,7 @@ describe Gallifreyian::I18nKey do
       i18n.state.should eq :valid
       i18n.reload.state.should eq :valid
     end
+
   end
 
   describe 'callbacks' do
@@ -296,7 +297,7 @@ describe Gallifreyian::I18nKey do
 
         it 'should wrapping up' do
           search_params = Gallifreyian::Search.new(
-            query: 'veut', section: 'foo', languages: ['en'], state: 'validation_pending'
+            query: 'veut', section: 'foo', languages: ['de'], state: 'validation_pending'
           )
           results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
@@ -328,8 +329,14 @@ describe Gallifreyian::I18nKey do
           results.size.should eq 1
         end
 
-        it 'should find based on validation_pending' do
+        it 'should find based on validation_pending without language' do
           search_params = Gallifreyian::Search.new(state: 'validation_pending')
+          results = Gallifreyian::I18nKey.search(search_params).results
+          results.size.should eq 2
+        end
+
+        it 'should find based on validation_pending_languages' do
+          search_params = Gallifreyian::Search.new(state: 'validation_pending', languages: [:fr, :de])
           results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
