@@ -53,12 +53,12 @@ describe Gallifreyian::I18nKey do
     end
 
     it 'should sanitize key' do
-      i18n.key = 'fr.clé .test'
+      i18n.key = 'fr.clé.test'
       i18n.save
-      i18n.key.should eq 'fr.cle.test'
+      i18n.key.should eq 'fr.clé.test'
       i18n.key = 'fr.clé .<p>testé</p>'
       i18n.save
-      i18n.key.should eq 'fr.cle.teste'
+      i18n.key.should eq 'fr.clé . testé '
     end
 
     describe 'sections' do
