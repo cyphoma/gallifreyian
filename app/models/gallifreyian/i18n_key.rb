@@ -50,6 +50,7 @@ class Gallifreyian::I18nKey
     indexes :state,             type: :string, index: :not_analyzed
     indexes :done,              type: :boolean, index: :not_analyzed
     indexes :validation_pending_languages,  type: :string,  index_name: :validation_pending_language, index: :not_analyzed
+    indexes :done_languages,  type: :string,  index_name: :done_language, index: :not_analyzed
 
     indexes :translations,      type: :nested, include_in_parent: true do
       indexes :language,          type: :string, index: :not_analyzed
@@ -72,7 +73,8 @@ class Gallifreyian::I18nKey
       state: self.state,
       done: self.done,
       pretty: self.pretty,
-      validation_pending_languages: self.validation_pending_languages
+      validation_pending_languages: self.validation_pending_languages,
+      done_languages: self.done_languages
     }.to_json
   end
 
@@ -102,6 +104,10 @@ class Gallifreyian::I18nKey
     translations.where(state: :validation_pending).all.map(&:language)
   end
 
+  def done_languages
+    translations.not_in(datum: [nil, '']).all.map(&:language)
+  end
+
   def validate!
     validate
     save
@@ -120,9 +126,13 @@ class Gallifreyian::I18nKey
 
         filter :term,  section: params.section                     if params.section.present?
         filter :term,  state: params.state                         if params.state.present? && params.state == 'valid'
-        filter :term,  done: params.done                           if params.done.is_a? Boolean
         filter :terms, 'translations.language' => params.languages if params.languages.present?
         filter :terms, validation_pending_languages: params.validation_pending_languages if params.validation_pending_languages.present?
+        if params.done_languages.present? && params.done_languages.is_a?(Array)
+          params.done_languages.each do |lang|
+            filter :terms, done_languages: Array(lang)
+          end
+        end
 
         facet 'sections' do
           terms :section, global: true

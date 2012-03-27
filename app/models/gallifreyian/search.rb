@@ -12,7 +12,7 @@ module Gallifreyian
     # Accessors
     #
     attr_accessor :query, :section, :state, :done, :languages,
-      :page, :per_page, :validation_pending_languages
+      :page, :per_page, :validation_pending_languages, :done_languages
 
     def initialize(attributes = {})
       run_callbacks :initialize do
@@ -30,12 +30,16 @@ module Gallifreyian
     def clean_params
       case state
       when 'validation_pending'
-        self.validation_pending_languages = Array(self.languages) - Array(Gallifreyian::Configuration.main_language)
+        self.validation_pending_languages = (Array(self.languages) - Array(Gallifreyian::Configuration.main_language)).reject!(&:blank?)
       when 'valid'
         self.validation_pending_languages = []
       end
-      self.done = true if self.done == 'true'
-      self.done = false if self.done == 'false'
+      case done
+      when 'true'
+        self.done_languages = (Array(self.languages) - Array(Gallifreyian::Configuration.main_language)).reject!(&:blank?)
+      when 'false'
+        self.done_languages = []
+      end
       self.languages = [self.languages] unless self.languages.kind_of?(Array)
       self.languages.reject!(&:blank?) if self.languages.present?
     end
