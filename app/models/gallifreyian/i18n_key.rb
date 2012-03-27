@@ -134,6 +134,12 @@ class Gallifreyian::I18nKey
     end
   end
 
+  def populate_translations
+    Array(I18n.available_locales - g.language).each do |loc|
+      self.translations.build(language: loc, datum : '')
+    end
+  end
+
   private
 
   # Update js locales
