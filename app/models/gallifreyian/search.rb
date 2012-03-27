@@ -31,7 +31,6 @@ module Gallifreyian
       case state
       when 'validation_pending'
         self.validation_pending_languages = Array(self.languages) - Array(Gallifreyian::Configuration.main_language)
-        self.state = nil
       when 'valid'
         self.validation_pending_languages = []
       end

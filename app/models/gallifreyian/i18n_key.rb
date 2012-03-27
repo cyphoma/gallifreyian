@@ -119,7 +119,7 @@ class Gallifreyian::I18nKey
         end
 
         filter :term,  section: params.section                     if params.section.present?
-        filter :term,  state: params.state                         if params.state.present?
+        filter :term,  state: params.state                         if params.state.present? && params.state == 'valid'
         filter :term,  done: params.done                           if params.done.is_a? Boolean
         filter :terms, 'translations.language' => params.languages if params.languages.present?
         filter :terms, validation_pending_languages: params.validation_pending_languages if params.validation_pending_languages.present?
