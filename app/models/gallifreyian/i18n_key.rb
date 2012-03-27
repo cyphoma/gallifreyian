@@ -171,7 +171,7 @@ class Gallifreyian::I18nKey
   end
 
   def set_done
-    self.done = self.translations.all? { |translation| translation.datum.present? }
+    self.done = self.translations.all? { |translation| translation.datum.present? } && Array(I18n.available_locales - self.languages).empty?
     return
   end
 
