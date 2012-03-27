@@ -7,7 +7,7 @@ module Gallifreyian
 
       # Field
       #
-      field :state,       type: Symbol, default: :valid
+      field :state,       type: Symbol
 
       # Validations
       #
@@ -30,6 +30,9 @@ module Gallifreyian
       private
 
       def valid_datum?
+        if self.state.nil?
+          self.state = :valid
+        end
         unless self.datum.nil? || self.datum.is_a?(String)
           errors.add(:datum, :not_a_string)
         end
