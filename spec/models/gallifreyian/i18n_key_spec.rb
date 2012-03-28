@@ -97,6 +97,8 @@ describe Gallifreyian::I18nKey do
 
     describe 'done' do
       it 'should set done to true' do
+        i18n.populate_translations
+        i18n.save
         i18n.reload.translations.each do |translation|
           translation.datum = 'Content'
         end
@@ -347,6 +349,7 @@ describe Gallifreyian::I18nKey do
         before do
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
           i18n.translations.build(language: :fr, datum: 'On veut trouver.')
+          i18n.populate_translations
           i18n.translations.each do |translation|
             translation.datum = 'Document traduit.'
           end

@@ -133,6 +133,7 @@ class Gallifreyian::I18nKey
             filter :terms, done_languages: Array(lang)
           end
         end
+        filter :term,  done: params.done        if params.done.try(:to_s).present? && params.done_languages.blank?
 
         facet 'sections' do
           terms :section, global: true

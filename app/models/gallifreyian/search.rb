@@ -30,14 +30,13 @@ module Gallifreyian
     def clean_params
       case state
       when 'validation_pending'
-        self.validation_pending_languages = (Array(self.languages) - Array(Gallifreyian::Configuration.main_language)).reject!(&:blank?)
+        self.validation_pending_languages = Array(self.languages).reject(&:blank?) - Array(Gallifreyian::Configuration.main_language)
       when 'valid'
         self.validation_pending_languages = []
       end
-      case done
-      when 'true'
-        self.done_languages = (Array(self.languages) - Array(Gallifreyian::Configuration.main_language)).reject!(&:blank?)
-      when 'false'
+      if done == 'true' || done == true
+        self.done_languages = Array(self.languages).reject(&:blank?) - Array(Gallifreyian::Configuration.main_language)
+      else
         self.done_languages = []
       end
       self.languages = [self.languages] unless self.languages.kind_of?(Array)
