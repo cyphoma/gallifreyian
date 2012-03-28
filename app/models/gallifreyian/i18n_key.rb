@@ -50,6 +50,7 @@ class Gallifreyian::I18nKey
     indexes :state,             type: :string, index: :not_analyzed
     indexes :done,              type: :boolean, index: :not_analyzed
     indexes :validation_pending_languages,  type: :string,  index_name: :validation_pending_language, index: :not_analyzed
+    indexes :undone_languages,  type: :string,  index_name: :undone_language, index: :not_analyzed
     indexes :done_languages,  type: :string,  index_name: :done_language, index: :not_analyzed
 
     indexes :translations,      type: :nested, include_in_parent: true do
@@ -72,6 +73,7 @@ class Gallifreyian::I18nKey
       section: self.section,
       state: self.state,
       done: self.done,
+      undone_languages: self.undone_languages,
       pretty: self.pretty,
       validation_pending_languages: self.validation_pending_languages,
       done_languages: self.done_languages
@@ -108,6 +110,10 @@ class Gallifreyian::I18nKey
     translations.not_in(datum: [nil, '']).all.map(&:language)
   end
 
+  def undone_languages
+    Gallifreyian::Configuration.available_locales - done_languages
+  end
+
   def validate!
     validate
     save
@@ -128,12 +134,13 @@ class Gallifreyian::I18nKey
         filter :term,  state: params.state                         if params.state.present? && params.state == 'valid'
         filter :terms, 'translations.language' => params.languages if params.languages.present?
         filter :terms, validation_pending_languages: params.validation_pending_languages if params.validation_pending_languages.present?
+        filter :terms, undone_languages: params.undone_languages if params.undone_languages.present?
         if params.done_languages.present? && params.done_languages.is_a?(Array)
           params.done_languages.each do |lang|
             filter :terms, done_languages: Array(lang)
           end
         end
-        filter :term,  done: params.done        if params.done.try(:to_s).present? && params.done_languages.blank?
+        filter :term,  done: params.done        if params.done.try(:to_s).present? && params.done_languages.blank? && params.done.to_s == 'true'
 
         facet 'sections' do
           terms :section

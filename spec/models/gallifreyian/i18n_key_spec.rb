@@ -388,6 +388,7 @@ describe Gallifreyian::I18nKey do
 
       context 'with a filter on done' do
         before do
+          Gallifreyian::Configuration.main_language = :es
           i18n = Gallifreyian::I18nKey.new(key: 'foo.bar')
           i18n.translations.build(language: :fr, datum: 'On veut trouver.')
           i18n.populate_translations
@@ -435,25 +436,25 @@ describe Gallifreyian::I18nKey do
         end
 
         it 'should find uncompleted translation' do
-          search_params = Gallifreyian::Search.new(done: false)
+          search_params = Gallifreyian::Search.new(done: 'false', languages: [:en])
           results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it 'should find uncompleted translation with language' do
-          search_params = Gallifreyian::Search.new(done: false, languages: [:es, :de])
+          search_params = Gallifreyian::Search.new(done: false, languages: [:de, :en])
           results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it 'should find completed translation, as string' do
-          search_params = Gallifreyian::Search.new(done: 'true')
+          search_params = Gallifreyian::Search.new(done: 'true', languages: [:es])
           results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
 
         it 'should find uncompleted translation, as string' do
-          search_params = Gallifreyian::Search.new(done: 'false')
+          search_params = Gallifreyian::Search.new(done: 'false', languages: [:en])
           results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end
