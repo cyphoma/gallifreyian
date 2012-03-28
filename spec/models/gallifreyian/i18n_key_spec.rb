@@ -233,9 +233,7 @@ describe Gallifreyian::I18nKey do
             datum: "Le capitaine et les deux garnements"
           )
           i.save
-          Tire.index(Gallifreyian::I18nKey.index_name) do
-            refresh
-          end
+          Gallifreyian::I18nKey.tire.index.refresh
           i
         end
 
@@ -248,13 +246,31 @@ describe Gallifreyian::I18nKey do
         end
 
         it 'should find by key' do
-          #pending "Garbage in the index?"
           %w{ pim pam poum }.each do |q|
             params = Gallifreyian::Search.new(query: q)
             results = Gallifreyian::I18nKey.search(params).results
             results.size.should eq 1
           end
         end
+
+        it 'should find by complete key' do
+          params = Gallifreyian::Search.new(query: 'pim.pam.poum')
+          results = Gallifreyian::I18nKey.search(params).results
+          results.size.should eq 1
+        end
+
+        it 'should find by almost complete key' do
+          params = Gallifreyian::Search.new(query: 'pim.pam')
+          results = Gallifreyian::I18nKey.search(params).results
+          results.size.should eq 1
+        end
+
+        it 'should find by almost complete key' do
+          params = Gallifreyian::Search.new(query: 'pam.poum')
+          results = Gallifreyian::I18nKey.search(params).results
+          results.size.should eq 1
+        end
+
         it 'should find by datum' do
           search_params = Gallifreyian::Search.new(query: 'capitaine')
           results = Gallifreyian::I18nKey.search(search_params).results
