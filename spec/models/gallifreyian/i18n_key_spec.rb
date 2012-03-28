@@ -377,8 +377,30 @@ describe Gallifreyian::I18nKey do
           results.size.should eq 1
         end
 
+        it 'should find completed translation with languages' do
+          search_params = Gallifreyian::Search.new(done: true, languages: [:es, :de])
+          results = Gallifreyian::I18nKey.search(search_params).results
+          results.size.should eq 1
+        end
+
+        it 'should not find completed translation with languages' do
+          key = Gallifreyian::I18nKey.first
+          key.translations.where(language: :es).one.datum = ''
+          key.save
+          Gallifreyian::I18nKey.tire.index.refresh
+          search_params = Gallifreyian::Search.new(done: true, languages: [:es, :de])
+          results = Gallifreyian::I18nKey.search(search_params).results
+          results.size.should eq be_empty
+        end
+
         it 'should find uncompleted translation' do
           search_params = Gallifreyian::Search.new(done: false)
+          results = Gallifreyian::I18nKey.search(search_params).results
+          results.size.should eq 1
+        end
+
+        it 'should find uncompleted translation with language' do
+          search_params = Gallifreyian::Search.new(done: false, languages: [:es, :de])
           results = Gallifreyian::I18nKey.search(search_params).results
           results.size.should eq 1
         end

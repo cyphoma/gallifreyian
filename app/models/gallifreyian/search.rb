@@ -34,10 +34,8 @@ module Gallifreyian
       when 'valid'
         self.validation_pending_languages = []
       end
-      if done == 'true' || done == true
+      if self.done.to_s.present?
         self.done_languages = Array(self.languages).reject(&:blank?) - Array(Gallifreyian::Configuration.main_language)
-      else
-        self.done_languages = []
       end
       self.languages = [self.languages] unless self.languages.kind_of?(Array)
       self.languages.reject!(&:blank?) if self.languages.present?
