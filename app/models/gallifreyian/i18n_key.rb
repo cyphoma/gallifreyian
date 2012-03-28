@@ -82,7 +82,7 @@ class Gallifreyian::I18nKey
     self.key.split('.').last.humanize
   end
 
-  # User I18n.available_locales to add missing translations on this I18nKey
+  # User Gallifreyian::Configuration.available_locales to add missing translations on this I18nKey
   #
   # @return [Array]     of Gallifreyian::Translation::I18nKey
   #
@@ -145,7 +145,7 @@ class Gallifreyian::I18nKey
   end
 
   def populate_translations
-    Array(I18n.available_locales - self.languages).each do |loc|
+    Array(Gallifreyian::Configuration.available_locales - self.languages).each do |loc|
       self.translations.build(language: loc, datum: '')
     end
   end
@@ -181,7 +181,7 @@ class Gallifreyian::I18nKey
   end
 
   def set_done
-    self.done = self.translations.all? { |translation| translation.datum.present? } && Array(I18n.available_locales - self.languages).empty?
+    self.done = self.translations.all? { |translation| translation.datum.present? } && Array(Gallifreyian::Configuration.available_locales - self.languages).empty?
     return
   end
 

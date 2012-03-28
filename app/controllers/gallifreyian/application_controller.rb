@@ -7,7 +7,7 @@ module Gallifreyian
 
     def searched_languages
       search_params = params[:search] || {}
-      (search_params[:languages] || referer_languages || I18n.available_locales).reject(&:blank?)
+      (search_params[:languages] || referer_languages || Gallifreyian::Configuration.available_locales).reject(&:blank?)
     end
 
     private
