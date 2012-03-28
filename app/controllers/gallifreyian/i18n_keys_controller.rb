@@ -76,7 +76,7 @@ module Gallifreyian
 
     def search_params
       @search_params ||=
-        Gallifreyian::Search.new((params[:search] || {}).merge!(params.slice('page', 'per_page')))
+        Gallifreyian::Search.new((params[:search] || {}).merge(params.slice('page', 'per_page')))
     end
   end
 end
