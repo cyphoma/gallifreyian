@@ -86,9 +86,11 @@ describe Gallifreyian::I18nKey do
       it 'should set i18n as :validation_pending' do
         i18n.translations << Gallifreyian::Translation::I18nKey.new(datum: 'test', language: :de)
         i18n.save
+        i18n.reload.validation_pending_languages.should be_empty
         translation = i18n.translations.first
         translation.datum = 'Nouvelle traduction'
         i18n.save
+        i18n.reload.validation_pending_languages.should include :de
         i18n.state.should eq :validation_pending
         i18n.save
         i18n.state.should_not eq :valid
@@ -96,17 +98,40 @@ describe Gallifreyian::I18nKey do
     end
 
     describe 'done' do
-      it 'should set done to true' do
-        i18n.populate_translations
-        i18n.save
-        i18n.reload.translations.each do |translation|
-          translation.datum = 'Content'
+      context 'with a complete key' do
+        let(:i18n) do
+          i18n = Factory :i18n
+          i18n.populate_translations
+          i18n.translations.each do |translation|
+            translation.datum = 'Content'
+          end
+          i18n.save
+          i18n
         end
-        i18n.save
-        i18n.reload.done?.should be_true
-        i18n.translations.last.datum = ''
-        i18n.save
-        i18n.done?.should be_false
+
+        it 'should set done to true' do
+          i18n.reload.done?.should be_true
+        end
+
+        it 'should be set to false after a modification' do
+          i18n.translations.last.datum = ''
+          i18n.save
+          i18n.reload.done?.should be_false
+        end
+
+        Gallifreyian::Configuration.available_locales.each do |loc|
+          it "should have #{loc} in done_languages" do
+            i18n.done_languages.should include loc
+          end
+        end
+
+        it 'should remove a language from done languages after a modification' do
+          i18n.translations.last.datum = ''
+          i18n.save
+          i18n.done_languages.should_not include i18n.translations.last.language
+        end
+
+
       end
 
       it 'should set done to false' do
