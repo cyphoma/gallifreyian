@@ -20,5 +20,11 @@ module Gallifreyian
     def form_options(i18n_key)
       i18n_key.new_record? ? {} : {html: {:"data-remote" => true}}
     end
+
+    def selected_section(section)
+      if params[:search] && params[:search][:section] && params[:search][:section] == section
+        " selected"
+      end
+    end
   end
 end
