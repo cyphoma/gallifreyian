@@ -44,8 +44,8 @@ class Gallifreyian::I18nKey
 
   mapping do
     indexes :_id,               type: :string, index: :not_analyzed
-    indexes :key,               type: :string, analyzer: :key_path, boost: 2
-    indexes :keys,              type: :string, analyzer: :keyword, boost: 2
+    indexes :key,               type: :string, analyzer: :key_path, boost: 50
+    indexes :keys,              type: :string, analyzer: :keyword, boost: 50
     indexes :section,           type: :string, index: :not_analyzed
     indexes :state,             type: :string, index: :not_analyzed
     indexes :done,              type: :boolean, index: :not_analyzed
