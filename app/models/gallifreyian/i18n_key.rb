@@ -200,10 +200,6 @@ class Gallifreyian::I18nKey
   end
 
   def sanitize
-    self.translations.each do |translation|
-      cleaned = Sanitize.clean(translation.datum) || ''
-      translation.datum = CGI.unescapeHTML(cleaned)
-    end
     self.key = CGI.unescapeHTML(Sanitize.clean(self.key))
   end
 
