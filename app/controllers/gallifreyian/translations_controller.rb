@@ -5,6 +5,7 @@ module Gallifreyian
 
     def validate
       translation.validate!
+      respond_with(resource)
     end
 
     private

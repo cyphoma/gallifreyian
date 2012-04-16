@@ -19,7 +19,7 @@
             <%= text_area_tag "i18n_key[translations_attributes][#{index}][datum]", translation.datum, rows: 2, cols: 100 %>
           </div>
           <%- if translation.datum.present? && translation.state.to_s == 'validation_pending' %>
-            <%= link_to t('gallifreyian.validate'), validate_i18n_key_translation_path(i18n_key.id.to_s, translation.id.to_s), method: :post, remote: true, class: :validateButton %>
+            <%= link_to t('gallifreyian.validate'), validate_i18n_key_translation_path(i18n_key.id.to_s, translation.id.to_s), class: :validateButton %>
           <%- end %>
         </div>
       <%- else %>
