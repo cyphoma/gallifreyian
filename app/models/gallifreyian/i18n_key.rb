@@ -93,7 +93,7 @@ class Gallifreyian::I18nKey
     missing_locales.each do |locale|
       self.translations << Gallifreyian::Translation::I18nKey.new(language: locale)
     end
-    self.translations.order_by(:language, :asc)
+    self.translations.order_by({:language => :asc})
   end
 
   def validate
