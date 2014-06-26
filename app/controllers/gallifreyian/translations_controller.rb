@@ -1,6 +1,6 @@
 # encoding: utf-8
 module Gallifreyian
-  class TranslationsController < ApplicationController
+  class TranslationsController < Gallifreyian::ApplicationController
     respond_to :html, :js, :json
 
     def validate

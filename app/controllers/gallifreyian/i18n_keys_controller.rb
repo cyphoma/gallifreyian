@@ -1,6 +1,6 @@
 # encoding: utf-8
 module Gallifreyian
-  class I18nKeysController < ApplicationController
+  class I18nKeysController < Gallifreyian::ApplicationController
     respond_to :html, :js, :json
     helper_method :new_i18n_key, :search_params
 
