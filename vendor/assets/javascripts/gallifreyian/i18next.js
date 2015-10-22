@@ -8,7 +8,9 @@
         ns: 'translation',
         nsseparator: ':',
         keyseparator: '.',
+        manifest: false,
         
+        manifestPath: '/locales/manifest.json',
         resGetPath: 'locales/__lng__/__ns__.json',
         resPostPath: 'locales/add/__lng__/__ns__',
 
@@ -34,6 +36,19 @@
 
     function init(options, cb) {
         $.extend(o, options);
+
+        // Load the manifest.json
+        $.ajax({
+          url: o.manifestPath,
+          success: function(data, status, xhr) {
+            o.manifest = data;
+          },
+          error: function(xhr, status, error) {
+            cb('failed loading ' + o.manifestPath + ' error: ' + error);
+          },
+          dataType: 'json',
+          async: false
+        });
 
         // namespace
         if (typeof o.ns == 'string') {
@@ -273,6 +288,7 @@
             var store = {};
             
             if (!dynamicLoad) {
+              debugger;
 
                 var todo = ns.namespaces.length * lngs.length;
 
@@ -293,6 +309,7 @@
             } else {
 
                 // load all needed stuff once
+              debugger;
                 $.ajax({
                     url: applyReplacement(o.resGetPath, {lng: lngs.join('+'), ns: ns.namespaces.join('+')}),
                     success: function(data, status, xhr){
