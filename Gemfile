@@ -12,7 +12,8 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem 'mongoid_translate', git: "af83@git.af83.com:mongoid_translate.git"
+gem 'mongoid_translate', #git: "af83@git.af83.com:mongoid_translate.git"
+  path: '../mongoid_translate'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'

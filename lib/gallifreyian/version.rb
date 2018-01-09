@@ -1,4 +1,4 @@
 # encoding: utf-8
 module Gallifreyian
-  VERSION = "0.0.5"
+  VERSION = "1.0.0"
 end

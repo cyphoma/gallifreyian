@@ -4,8 +4,8 @@ require 'sanitize'
 class Gallifreyian::I18nKey
   include Mongoid::Document
   include Mongoid::Translate
-  include Tire::Model::Search
-  include Tire::Model::Callbacks
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
 
   # Constants
   STATES = ['validation_pending', 'valid']
@@ -30,7 +30,7 @@ class Gallifreyian::I18nKey
   before_save :set_state, :sanitize, :set_done, :set_section
   after_save :to_i18n, :js_locales
 
-  # Tire mapping
+  # ES mapping
   #
   index_name Gallifreyian::Configuration.index_name || 'gallifreyian'
   settings analysis: {
@@ -64,7 +64,7 @@ class Gallifreyian::I18nKey
     self.translations.reject {|t| t.datum.blank? }.any? {|translation| translation.state == :validation_pending } ? :validation_pending : :valid
   end
 
-  def to_indexed_json
+  def as_indexed_json(options = {})
     {
       _id: self.id.to_s,
       translations: self.translations,
@@ -77,7 +77,7 @@ class Gallifreyian::I18nKey
       pretty: self.pretty,
       validation_pending_languages: self.validation_pending_languages,
       done_languages: self.done_languages
-    }.to_json
+    }
   end
 
   def pretty
@@ -121,34 +121,10 @@ class Gallifreyian::I18nKey
 
   class << self
     def search(params = Gallifreyian::Search.new)
-      size = params.per_page.present? ? params.per_page : 10
-      from = ((params.page||1).to_i-1)*size.to_i
+      definition = params.to_search_definition
+      puts definition.to_json
 
-
-      tire.search(:load => true) do
-        params.query.blank? ? query { all } : query do
-          string params.query.gsub('.', ' '), escape: true
-        end
-
-        filter :term,  section: params.section                     if params.section.present?
-        filter :term,  state: params.state                         if params.state.present? && params.state == 'valid'
-        filter :terms, 'translations.language' => params.languages if params.languages.present?
-        filter :terms, validation_pending_languages: params.validation_pending_languages if params.validation_pending_languages.present?
-        filter :terms, undone_languages: params.undone_languages if params.undone_languages.present?
-        if params.done_languages.present? && params.done_languages.is_a?(Array)
-          params.done_languages.each do |lang|
-            filter :terms, done_languages: Array(lang)
-          end
-        end
-        filter :term,  done: params.done        if params.done.try(:to_s).present? && params.done_languages.blank? && params.done.to_s == 'true'
-
-        facet 'sections' do
-          terms :section
-        end
-
-        from from
-        size size
-      end
+      __elasticsearch__.search(definition)
     end
   end
 

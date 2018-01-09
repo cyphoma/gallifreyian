@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files = Dir["specs/**/*"]
   s.require_path = 'lib'
 
-  s.add_dependency "rails", "~> 3.1"
+  s.add_dependency "rails"
   s.add_dependency "mongoid"
   s.add_dependency "bson_ext"
   s.add_dependency "sanitize"
@@ -24,8 +24,9 @@ Gem::Specification.new do |s|
   s.add_dependency "kaminari"
   s.add_dependency "redis-namespace"
   s.add_dependency "simple_form"
-  s.add_dependency 'tire'
   s.add_dependency 'addressable'
+  s.add_dependency "elasticsearch-model"
+  s.add_dependency "elasticsearch-dsl"
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency 'factory_girl_rails'

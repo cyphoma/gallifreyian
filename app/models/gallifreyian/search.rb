@@ -26,6 +26,46 @@ module Gallifreyian
     def to_key
     end
 
+    def to_search_definition
+      size = per_page.present? ? per_page : 10
+      from = ((page||1).to_i-1)*size.to_i
+
+      Elasticsearch::DSL::Search.search do |s|
+        s.query do |s|
+          s.bool do |s|
+            s.must do |s|
+              if query.blank?
+                s.match_all {}
+              else
+                s.query_string {|s| s.query query.gsub('.', ' ') }
+              end
+            end
+
+            s.filter do |s|
+              s.term(section: section)                            if section.present?
+              s.term(state: state)                                if state.present? && state == 'valid'
+              s.term(done: done)                                  if done.try(:to_s).present? && done_languages.blank? && done.to_s == 'true'
+              s.terms('translations.language' => languages)       if languages.present?
+              s.terms(undone_languages: undone_languages)         if undone_languages.present?
+              s.terms(validation_pending_languages: params.validation_pending_languages) if validation_pending_languages.present?
+              if done_languages.present? && done_languages.is_a?(Array)
+                done_languages.each do |lang|
+                  s.terms(done_languages: Array(lang))
+                end
+              end
+            end
+          end
+        end
+
+        # facet 'sections' do
+        #   terms :section
+        # end
+
+        s.size size
+        s.from from
+      end
+    end
+
     private
 
     def clean_params
@@ -43,5 +83,6 @@ module Gallifreyian
       self.languages = [self.languages] unless self.languages.kind_of?(Array)
       self.languages.reject!(&:blank?) if self.languages.present?
     end
+
   end
 end
